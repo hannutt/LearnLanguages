@@ -43,3 +43,17 @@
   width: 20%;
   padding: 5px;
 }
+.animate {
+  width: 25px;
+  height: 25px;
+  /*nimetään animaation + kesto*/
+  animation-name: fieldsAnimate;
+  animation-duration: 5s;
+}
+
+@keyframes fieldsAnimate {
+  /*aloitusväri*/
+  from {background-color:blue;}
+  /*lopetusväri ja paluu alkuperäiseen*/
+  to {background-color: black;}
+}

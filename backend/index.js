@@ -30,12 +30,16 @@ app.get("/question/:id",(req,res)=>{
     })
 })
 
-app.get("/tablename/:table/",(req,res)=>{
-    const table =req.params.table
-    const id=req.body.questionId
-    const val=[table,id]
+app.get("/tablename",(req,res)=>{
+    //queryparamit talletetaan muuttujiin, query jälkeinen nimi on sama, mikä se on app.js:ssä queryparamina
+    //annettu query kertoo että käsitellään queryparameja
+    const table =req.query.table
+    const id = req.query.id
+   // const id=req.body.questionId
+    console.log(table)
+    console.log(id)
     const query=`SELECT * FROM ${table} WHERE id=${id}`
-    db.query(query,[val],(err,data)=>{
+    db.query(query,(err,data)=>{
         if (err) return res.json(err)
             return res.json(data)
 
