@@ -37,6 +37,9 @@
     transform: rotate(360deg);
   }
 }
-.lngHeader {
-  color: #93bfb4
+.question {
+  align-items: center;
+  border: 2px solid black;
+  width: 20%;
+  padding: 5px;
 }

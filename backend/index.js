@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { request } from 'express'
 import mysql from "mysql2"
 import cors from "cors"
 const app = express()
@@ -28,6 +28,19 @@ app.get("/question/:id",(req,res)=>{
             return res.json(data)
 
     })
+})
+
+app.get("/tablename/:table/",(req,res)=>{
+    const table =req.params.table
+    const id=req.body.questionId
+    const val=[table,id]
+    const query=`SELECT * FROM ${table} WHERE id=${id}`
+    db.query(query,[val],(err,data)=>{
+        if (err) return res.json(err)
+            return res.json(data)
+
+    })
+   
 })
 
 app.listen(8800,()=>{
