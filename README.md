@@ -1,4 +1,4 @@
-Project keywords: ReactJS, Node.js, MySQL, AI, Axios, ExpressJS, Bootstrap 5
+Project keywords: ReactJS, Node.js, MySQL, AI-integration, Axios, ExpressJS, LibreTranslate API
 
 SPECIFICATIONS
 
@@ -12,3 +12,5 @@ The questions are of the form "how do you say good day in Finnish? etc." The use
 Finally, the response given by the user is compared with the response given by the API
 
 The user selects the desired language from the html selection component. the selected language is saved with the onChange event handler in the State variable, which is passed as a query parameter to the node.js backend. With the help of the parameter, the backend knows how to choose the right SQL table.
+
+The questions are presented in English by default. However, the user can translate the questions by choosing the language they want from the available options. Once the language is selected, an English question is sent to the LibreTranslate API using JavaScript's fetch method. as a response, the API returns the translated question and it is displayed in the HTML frontend.
