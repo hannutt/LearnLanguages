@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios"
+import voice from "../images/voice-command.png"
 
 
 function WordInput(props) {
@@ -7,6 +8,12 @@ function WordInput(props) {
   const [askedQuestion, setAskedQuestion] = useState("")
   const [correctAns, setCorrectAns] = useState(0)
   const [wrongAns, setWrongAns] = useState(0)
+
+  const speech = () =>{
+    var msg = new SpeechSynthesisUtterance();
+    msg.text = document.getElementById("question").innerText
+    window.speechSynthesis.speak(msg);
+  }
 
   const handleClick = async () => {
     
@@ -68,6 +75,9 @@ function WordInput(props) {
 
       <input id='userInput' placeholder='Your answer' onChange={e => setUserInput(e.target.value.toLowerCase())}></input>
       <button id="inputBtn" onClick={handleClick}>Check</button>
+      <br></br>
+      <button onClick={speech}><img src={voice}></img></button>
+    
       <h5 className="correct">Correct answers: {correctAns}</h5>
       <h5 className="wrong">Wrong answers: {wrongAns}</h5>
     </div>

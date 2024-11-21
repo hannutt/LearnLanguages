@@ -13,4 +13,10 @@ Finally, the response given by the user is compared with the response given by t
 
 The user selects the desired language from the html selection component. the selected language is saved with the onChange event handler in the State variable, which is passed as a query parameter to the node.js backend. With the help of the parameter, the backend knows how to choose the right SQL table.
 
+TRANSLATION OF THE QUESTION INTO THE DESIRED LANGUAGE
+
 The questions are presented in English by default. However, the user can translate the questions by choosing the language they want from the available options. Once the language is selected, an English question is sent to the LibreTranslate API using JavaScript's fetch method. as a response, the API returns the translated question and it is displayed in the HTML frontend.
+
+LISTENING THE QUESTION
+
+The user can also listen to the question asked. The question is converted from text to speech using the JavaScript Web Speech API. The operation of the Web Speech API is implemented by a simple function that is executed when the user clicks a button.

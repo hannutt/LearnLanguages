@@ -3,6 +3,7 @@ import './App.css';
 import WordInput from "./pages/WordInput"
 import axios from "axios"
 import learnHeader from "./images/learnHeader.jpg"
+
 import { useState, useEffect } from 'react';
 
 
@@ -17,7 +18,9 @@ function App() {
   var [translate, setTranslate] = useState([])
   var [selLanguage,setSelLanguage]=useState("")
 
+
   const translateText = async () => {
+
     var questionTranslate = document.getElementById("question").innerText
     const res = await fetch("http://127.0.0.1:5000/translate", {
       method: "POST",
@@ -36,6 +39,7 @@ function App() {
 
 
   }
+
 
   const handleClick = async () => {
 
@@ -61,7 +65,7 @@ function App() {
       <br></br>
       {/*w-25 muuttaa leveyden 25 prosenttiin*/}
       <select class="form-select form-select-sm w-25" onChange={e => selection(e.target.options[e.target.selectedIndex].text, e.target.value)} aria-label=".form-select-sm example">
-        <option selected >Select language</option>
+        <option selected >Select language to learn</option>
 
         <option id='opt1' value="questions" >Finnish</option>
         <option id='opt2' value="questionswe">Swedish</option>
@@ -76,9 +80,11 @@ function App() {
 
 
       <h2 className='lngHeader'>Languages</h2>
-      <button onClick={translateText}>translate</button>
+     
+      <button class="btn btn-primary" onClick={translateText}>Translate question</button>
+      <br></br>
       <select name="language" id="language" onChange={e=>setSelLanguage(e.target.value)}>
-      <option selected >Select language</option>
+      <option selected >Select language </option>
         <option value="es">Spanish</option>
       
       </select>
