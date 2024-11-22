@@ -63,3 +63,31 @@
 .wrong {
   color:red;
 }
+
+.translatedQuestion {
+  align-items: center;
+  border: 2px solid black;
+  width: 20%;
+  padding: 5px;
+}
+.answers {
+  border:  2px dotted black;
+  padding: 10 px;
+  position: absolute;
+  top:200px
+}
+.visualDiv {
+  position: absolute;
+  top:270px;
+  font-weight: bold;
+}
+/*divin inputit oikealle*/
+.visualDiv input{
+  float:right;
+  text-indent:10px;
+}
+.saveBtn {
+  position: absolute;
+  top: 300px;
+  left:1px
+}
