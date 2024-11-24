@@ -11,6 +11,9 @@ function WordInput(props) {
   const [wrongAns, setWrongAns] = useState(0)
   const [visualization,setVisualization]=useState(false)
   var [cType,setCtype]=useState("")
+  var [feedback,setFeedback]=useState("")
+  var [answerForHint,setAnswerForHint]=useState("")
+  var [iHint,setIhint]=useState(0)
 
   const saveId = () =>{
     localStorage.setItem("id",props.questionId)
@@ -23,33 +26,20 @@ function WordInput(props) {
 
   }
 
-  const askHint=()=>{
-    var apk = localStorage.getItem("apk")
-    const API_URL = "https://api.openai.com/v1/chat/completions"
 
-
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apk}`
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: props.question[0].ask }]
-      })
-
-
+  const askHint=async ()=>{
+      
+      const res = await axios.get("http://localhost:8800/askhint/" + props.questionId)
+      setAnswerForHint(answerForHint=res.data)
+      console.log(answerForHint[0].hinttext[iHint])
+      document.getElementById("userInput").value+=answerForHint[0].hinttext[iHint]
+      setIhint(iHint+1)
+      if (iHint > answerForHint.length)
+      {
+        document.getElementById("userInput").value=answerForHint[0].hinttext
+      }
+      
     }
-    fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
-      var answer=data.choices[0].message.content
-      var answerLower=answer.toLowerCase()
-      document.getElementById("userInput").value=answerLower[0]
-    })
-
-  }
-
-
 
   const handleClick = async () => {
     
@@ -83,13 +73,20 @@ function WordInput(props) {
     fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
       var answer=data.choices[0].message.content
       var answerLower=answer.toLowerCase()
+      setAnswerForHint(answerLower)
 
       if (userInput === answerLower || answerLower.includes(userInput)) {
         setCorrectAns(correctAns + 1)
+        setFeedback(feedback="CORRECT")
+        //kutsutaan apps.js:llä olevaa apufunktiota, jolle annetaan parametrina feedback state
+        props.getFeedback(feedback)
+        //jos vastaus on oikea, niin nollataan askhint funktion kierrosmuuttuja
+        setIhint(iHint=0)
 
       }
       else {
         setWrongAns(wrongAns+1)
+        setIhint(iHint=0)
       }
     }).catch((error) => {
       console.log(error)

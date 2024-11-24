@@ -31,6 +31,16 @@ app.get("/question/:id",(req,res)=>{
     })
 })
 
+app.get("/askhint/:id",(req,res)=>{
+    const query="SELECT hinttext FROM Questions WHERE id=?"
+    const val = [req.params.id]
+    db.query(query,[val],(err,data)=>{
+        if (err) return res.json(err)
+            return res.json(data)
+
+    })
+})
+
 app.get("/tablename",(req,res)=>{
     //queryparamit talletetaan muuttujiin, query jälkeinen nimi on sama, mikä se on app.js:ssä queryparamina
     //annettu query kertoo että käsitellään queryparameja

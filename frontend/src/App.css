@@ -125,5 +125,9 @@
 .speechBtns1,.speechBtns2,.inputBtnDiv,.microphone {
   margin-right: 10px;
 }
+.feedback {
+  font-weight: bold;
+  font-size: large;
+}
 
 

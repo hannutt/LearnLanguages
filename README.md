@@ -36,3 +36,11 @@ After selecting the checkbox, the value of the "value" property is sent using th
 SAVE & CONTINUE LATER
 
 This feature will save the ID number of the current question in localStorage if the user clicks the Save and Continue button. The idea is that the user can later continue studying the same question and does not have to start from the beginning.
+
+ASKING A TIP
+
+The user can request a hint about the correct answer by clicking the "Ask hint" button. With each press, one letter of the correct answer is retrieved from the SQL database and the letters are displayed in the html input field. This feature uses a state variable to track the number of clicks and the displayed letter
+
+AUXILIARY IMAGES
+
+In connection with each phrase asked, an auxiliary image is also shown that describes the word/sentence in question. The application uses images from Openclipart.org and the url addresses of the images are stored in the database used by the application. When each question is displayed, the url address of the image is also retrieved from the database, the address is used in the src property of the img element, so that the image itself is displayed.

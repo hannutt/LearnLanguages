@@ -21,7 +21,20 @@ function App() {
   var [translatedQuestion, setTranslatedQuestion] = useState(true)
   var [timeToAnswer, setTimeToAnswer] = useState(60)
   const [limited, setLimited] = useState(false)
-  var [img,setImg]=useState("")
+  const [hideImage,setHideImage]=useState(false)
+  
+ //data parametrin arvo saadaan wordinput komponentista, parametri sisältää wordinput komponentissa
+ //määritetyn feedback state-muuttujan.
+ const getFeedback = (data) => {
+  console.log(data)
+  document.getElementById("feedback").innerText=data
+  setTimeout(() => {
+    //feedback elementin sisältö poistetaan 3 sek kuluttua.
+    document.getElementById("feedback").innerText=""
+    
+  },3000);
+
+ }
 
   const translateText = async () => {
     setTranslatedQuestion(!translatedQuestion)
@@ -130,7 +143,7 @@ function App() {
       <center>
         <p id='translatedQuestion' className='translatedQuestion' hidden={translatedQuestion}>{translate}</p>
       </center>
-      <p id='feedback'></p>
+      <p id='feedback' className='feedback'></p>
       <br></br>
       {question.map(q => (
         
@@ -140,9 +153,10 @@ function App() {
           tyylimääritys*/}
           <p id='animation' className={doAnimate}></p>
           <p id='question' className='question'><b>{q.ask} </b></p>
-          {console.log(q.images)}
-    
-          <img src={q.imageurl} width={200} height={200}></img>
+          
+          <div className='helperImage'>
+          <img hidden={hideImage} src={q.imageurl} width={200} height={200}></img>
+          </div>
 
         </center>
       ))}
@@ -151,8 +165,8 @@ function App() {
 
       <br></br>
       {/*jos starlearn on true eli checkboksia on klikattu näytetään wordinput komponentti
-      samalla lähetetään wordinput komponentille näytettävä kysymys*/}
-      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} />}
+      samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}
+      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} />}
 
     </div>
   );
