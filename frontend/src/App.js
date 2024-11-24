@@ -21,6 +21,7 @@ function App() {
   var [translatedQuestion, setTranslatedQuestion] = useState(true)
   var [timeToAnswer, setTimeToAnswer] = useState(60)
   const [limited, setLimited] = useState(false)
+  var [img,setImg]=useState("")
 
   const translateText = async () => {
     setTranslatedQuestion(!translatedQuestion)
@@ -74,10 +75,9 @@ function App() {
       setQuestion(res.data)
       setDoAnimate("animate")
     }
-
-
   }
 
+  //evt on select-komponentista valitun taulun nimi
   const selection = (ev, evt) => {
     setUserSelect(table = ev)
     setTable(table = evt)
@@ -90,8 +90,7 @@ function App() {
       <img src={learnHeader}></img>
       <br></br>
       <h2 className='lngHeader'>Languages</h2>
-      <input class="form-check-input" type="checkbox" id="timeLimitCB" onChange={() => setLimited(!limited)} />
-      <label class="form-check-label" for="timeLimitCB">Time Limited?</label>
+    
       <center>
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
         <select class="form-select form-select-sm w-25" onChange={e => selection(e.target.options[e.target.selectedIndex].text, e.target.value)} aria-label=".form-select-sm example">
@@ -107,6 +106,9 @@ function App() {
       <center>
         <input class="form-check-input" hidden={learnCB} type="checkbox" value="" id="startLearnCB" onChange={handleClick} />
         <label class="form-check-label" hidden={learnCB} for="startLearnCB">Start learning {userSelect}</label>
+        <br></br>
+        <input class="form-check-input" hidden={learnCB} type="checkbox" id="timeLimitCB" onChange={() => setLimited(!limited)} />
+        <label class="form-check-label" hidden={learnCB} for="timeLimitCB">Time Limited?</label>
       </center>
 
 
@@ -115,14 +117,15 @@ function App() {
 
 
       <div className='options' hidden={optionsDiv}>
-        <select name="language" id="language" onChange={e => setSelLanguage(e.target.value)}>
+        <select name="language" id="language" className='language' onChange={e => setSelLanguage(e.target.value)}>
           <option selected >Select language </option>
           <option value="es">Spanish</option>
           <option value="de">German</option>
           <option value="fr">French</option>
         </select>
-
+        <span className='translateBtn'>
         <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
+        </span>
       </div>
       <center>
         <p id='translatedQuestion' className='translatedQuestion' hidden={translatedQuestion}>{translate}</p>
@@ -130,12 +133,16 @@ function App() {
       <p id='feedback'></p>
       <br></br>
       {question.map(q => (
+        
         <center>
 
           {/*animaatio suoritetaan kun doanimaten arvokksi tulee animate merkkijono, eli css-tiedoston
           tyylimääritys*/}
           <p id='animation' className={doAnimate}></p>
-          <p id='question' className='question'><b>{q.ask}</b></p>
+          <p id='question' className='question'><b>{q.ask} </b></p>
+          {console.log(q.images)}
+    
+          <img src={q.imageurl} width={200} height={200}></img>
 
         </center>
       ))}

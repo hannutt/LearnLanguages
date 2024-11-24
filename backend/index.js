@@ -37,8 +37,7 @@ app.get("/tablename",(req,res)=>{
     const table =req.query.table
     const id = req.query.id
    // const id=req.body.questionId
-    console.log(table)
-    console.log(id)
+  
     const query=`SELECT * FROM ${table} WHERE id=${id}`
     db.query(query,(err,data)=>{
         if (err) return res.json(err)

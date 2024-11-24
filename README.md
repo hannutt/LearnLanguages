@@ -27,7 +27,11 @@ The text-to-speech feature of this app can also repeat a translated question. Fo
 
 DATA VISUALIZATION
 
-The application stores the incorrect and correct answers in two state variables. The user can choose whether he wants to see the results in text or visually. The visualization is made with Google charts and the correct and incorrect answers are shown in two different Cauge charts
+The application stores the incorrect and correct answers in two state variables. The user can choose whether he wants to see the results in text or visually. The visualization is done with Google charts and the right and wrong answers are shown in a Cauge chart or a pie chart depending on the user's choice.
+
+The user makes a selection by clicking on a checkbox, both checkboxes have their own value property, the value of one property is "Gauge" and the value of the other is "PieChart". 
+
+After selecting the checkbox, the value of the "value" property is sent using the onChange event handler to a function that displays the Google Chart component and gives the value of the selected checkbox to the chartType property of the Chart component.
 
 SAVE & CONTINUE LATER
 

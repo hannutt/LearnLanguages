@@ -78,16 +78,52 @@
 }
 .visualDiv {
   position: absolute;
-  top:270px;
+  top:275px;
   font-weight: bold;
 }
 /*divin inputit oikealle*/
 .visualDiv input{
   float:right;
   text-indent:10px;
+  margin-left: 5px;
 }
 .saveBtn {
   position: absolute;
-  top: 300px;
+  top: 330px;
   left:1px
 }
+/*inline-blokeilla saadaan language & translatebtn tasattua samalle linjalle*/
+.language {
+  display:inline-block;
+  margin-right:10px;
+ 
+}
+.translateBtn {
+  display:inline-block;
+}
+.userInput {
+  margin-right: 10px;
+
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+
+ 
+}
+.flex-containerWI {
+  display: flex;
+  justify-content: center;
+ 
+}
+.options {
+  display: flex;
+  justify-content: center;
+}
+/*tyhjää tilaa painikkeiden väliin*/
+.speechBtns1,.speechBtns2,.inputBtnDiv,.microphone {
+  margin-right: 10px;
+}
+
+

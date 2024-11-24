@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios"
 import TextToSpeech from "./TextToSpeech";
 import { Chart } from "react-google-charts";
-
+import microphone16px from "../images/microphone16px.png"
 
 function WordInput(props) {
   const [userInput, setUserInput] = useState("")
@@ -10,10 +10,45 @@ function WordInput(props) {
   const [correctAns, setCorrectAns] = useState(0)
   const [wrongAns, setWrongAns] = useState(0)
   const [visualization,setVisualization]=useState(false)
+  var [cType,setCtype]=useState("")
 
   const saveId = () =>{
     localStorage.setItem("id",props.questionId)
   }
+
+  //ev parametri sisältää checkboxin value propertyn
+  const dataVisualization=(ev)=>{
+    setVisualization(!visualization)
+    setCtype(cType=ev)
+
+  }
+
+  const askHint=()=>{
+    var apk = localStorage.getItem("apk")
+    const API_URL = "https://api.openai.com/v1/chat/completions"
+
+
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apk}`
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: props.question[0].ask }]
+      })
+
+
+    }
+    fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
+      var answer=data.choices[0].message.content
+      var answerLower=answer.toLowerCase()
+      document.getElementById("userInput").value=answerLower[0]
+    })
+
+  }
+
 
 
   const handleClick = async () => {
@@ -66,8 +101,18 @@ function WordInput(props) {
   return (
 
     <div>
-      <input id='userInput' placeholder='Your answer' onChange={e => setUserInput(e.target.value.toLowerCase())}></input>
-      <button id="inputBtn" class="btn btn-info" onClick={handleClick}>Check answer</button>
+      <div className="flex-containerWI">
+      <input id='userInput' className="userInput" placeholder='Your answer' onChange={e => setUserInput(e.target.value.toLowerCase())}></input>
+      <div className="inputBtnDiv">
+      <button id="inputBtn" class="btn btn-info btn-sm" onClick={handleClick}>Check answer</button>
+      </div>
+      <div className="microphone">
+        <button class="btn btn-info btn-sm"><img src={microphone16px}></img></button>
+      </div>
+      <div className="hintBtnDiv">
+      <button class="btn btn-info btn-sm" onClick={askHint}>Ask hint</button>
+      </div>
+      </div>
       <span className="saveBtn">
       <button id="save" class="btn btn-info" onClick={saveId}>Save & continue later</button>
       </span>
@@ -78,15 +123,18 @@ function WordInput(props) {
       <h5 className="wrong">Wrong answers: {wrongAns}</h5>
       </div>
       <div className="visualDiv">
-      <input class="form-check-input" type="checkbox" id="visualCB" onChange={()=>setVisualization(!visualization)} />
-      <label class="form-check-label" for="visualCB">Show data visualization</label>
+        {/*datavisualization funktio saa onchangessa parametrina checkboksin valuen eli Gauge */}
+      <input class="form-check-input" type="checkbox" id="visualCB" value="Gauge" onChange={e=>dataVisualization(e.target.value)}/>
+      <label class="form-check-label" for="visualCB">Show data visualization in Cauge</label>
+      <br></br>
+      <input class="form-check-input" type="checkbox" id="visualCB2" value="PieChart" onChange={e=>dataVisualization(e.target.value)} />
+      <label class="form-check-label" for="visualCB2">Show data visualization in Pie Chart</label>
       </div>
-    
-
       <center>
-        {visualization && <Chart
+        {/*google chartin valinta gauge/piechart riippuen ctypen arvost*/}
+        {visualization && cType=="Gauge" && <Chart
       // google chart komponentti
-      chartType="Gauge"
+      chartType={cType}
       data={[
         ["Label","Value"],
         ["Wrong",wrongAns],
@@ -96,7 +144,16 @@ function WordInput(props) {
       ]}
  
     />}
-    
+    {visualization && cType==="PieChart" && <Chart
+      // google chart komponentti
+      chartType={cType}
+      data = {[
+        ["Answers", ""],
+        ["Correct", correctAns],
+        ["Wrong", wrongAns],
+       
+      ]}
+    />}
     </center>
 
     </div>
