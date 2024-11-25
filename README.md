@@ -44,3 +44,6 @@ The user can request a hint about the correct answer by clicking the "Ask hint" 
 AUXILIARY IMAGES
 
 In connection with each phrase asked, an auxiliary image is also shown that describes the word/sentence in question. The application uses images from Openclipart.org and the url addresses of the images are stored in the database used by the application. When each question is displayed, the url address of the image is also retrieved from the database, the address is used in the src property of the img element, so that the image itself is displayed.
+
+When loading auxiliary images, a CSS animation is always implemented, which rotates the image 360 ​​degrees.
+This feature is made with CSS-animate and Transform methods. Reloading CSS animations is done with two identical CSS classes, which are given alternately as the class name of the div containing the img element.

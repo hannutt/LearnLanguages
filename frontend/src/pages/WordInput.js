@@ -4,6 +4,7 @@ import TextToSpeech from "./TextToSpeech";
 import { Chart } from "react-google-charts";
 import microphone16px from "../images/microphone16px.png"
 
+
 function WordInput(props) {
   const [userInput, setUserInput] = useState("")
   const [askedQuestion, setAskedQuestion] = useState("")
@@ -14,6 +15,8 @@ function WordInput(props) {
   var [feedback,setFeedback]=useState("")
   var [answerForHint,setAnswerForHint]=useState("")
   var [iHint,setIhint]=useState(0)
+
+ 
 
   const saveId = () =>{
     localStorage.setItem("id",props.questionId)
@@ -83,6 +86,19 @@ function WordInput(props) {
         //jos vastaus on oikea, niin nollataan askhint funktion kierrosmuuttuja
         setIhint(iHint=0)
 
+        //css-animaation toteutus aina uuden kuvan yhteydessä. tässä tapauksessa
+        //animaatio toteutetaan vaihtamalla css-luokan nimeä helperImage-helperImageRestart välillä
+        //luokan vaihtamisella saadaan käynnistettyä animaatio aina uudelleen.
+        if ( document.getElementById("helper").className=="helperImageRestart")
+        {
+          document.getElementById("helper").className="helperImage"
+        }
+        else if (document.getElementById("helper").className=="helperImage")
+        {
+         document.getElementById("helper").className="helperImageRestart" 
+        }
+       
+
       }
       else {
         setWrongAns(wrongAns+1)
@@ -98,6 +114,7 @@ function WordInput(props) {
   return (
 
     <div>
+     
       <div className="flex-containerWI">
       <input id='userInput' className="userInput" placeholder='Your answer' onChange={e => setUserInput(e.target.value.toLowerCase())}></input>
       <div className="inputBtnDiv">
@@ -106,12 +123,13 @@ function WordInput(props) {
       <div className="microphone">
         <button class="btn btn-info btn-sm"><img src={microphone16px}></img></button>
       </div>
+     
       <div className="hintBtnDiv">
       <button class="btn btn-info btn-sm" onClick={askHint}>Ask hint</button>
       </div>
       </div>
       <span className="saveBtn">
-      <button id="save" class="btn btn-info" onClick={saveId}>Save & continue later</button>
+      <button id="save" class="btn btn-info btn-sm" onClick={saveId}>Save & continue later</button>
       </span>
       
       <TextToSpeech/>
@@ -127,6 +145,8 @@ function WordInput(props) {
       <input class="form-check-input" type="checkbox" id="visualCB2" value="PieChart" onChange={e=>dataVisualization(e.target.value)} />
       <label class="form-check-label" for="visualCB2">Show data visualization in Pie Chart</label>
       </div>
+     
+     
       <center>
         {/*google chartin valinta gauge/piechart riippuen ctypen arvost*/}
         {visualization && cType=="Gauge" && <Chart

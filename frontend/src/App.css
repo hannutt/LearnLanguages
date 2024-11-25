@@ -129,5 +129,36 @@
   font-weight: bold;
   font-size: large;
 }
+/*helperimage on 4 sek mittainen rotateImage niminen animaatio (animation-duration)
+jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
+.helperImage {
+  
+  animation-name: rotateImage;
+  animation-duration: 4s;
+  animation-direction:normal;
+}
+@keyframes rotateImage {
+  0%   {transform: rotate(0deg);}
+  25%  {transform: rotate(45deg);}
+  50%  {transform: rotate(90deg);}
+  75%  {transform: rotate(180deg);}
+  100% {transform: rotate(360deg);;}
+}
+
+.helperImageRestart {
+  
+  animation-name: rotateImage2;
+  animation-duration: 4s;
+  animation-direction:normal;
+ 
+}
+@keyframes rotateImage2 {
+  0%   {transform: rotate(0deg);}
+  25%  {transform: rotate(45deg);}
+  50%  {transform: rotate(90deg);}
+  75%  {transform: rotate(180deg);}
+  100% {transform: rotate(360deg);;}
+}
+
 
 

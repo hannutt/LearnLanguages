@@ -22,11 +22,18 @@ function App() {
   var [timeToAnswer, setTimeToAnswer] = useState(60)
   const [limited, setLimited] = useState(false)
   const [hideImage,setHideImage]=useState(false)
+  var [animateDiv,setAnimateDiv]=useState("helperImage")
+
+  /*
+  useEffect(()=>{
+    setAnimateDiv(animateDiv="helperImage")
+  },[animateDiv])
+  */
   
  //data parametrin arvo saadaan wordinput komponentista, parametri sisältää wordinput komponentissa
  //määritetyn feedback state-muuttujan.
  const getFeedback = (data) => {
-  console.log(data)
+
   document.getElementById("feedback").innerText=data
   setTimeout(() => {
     //feedback elementin sisältö poistetaan 3 sek kuluttua.
@@ -108,7 +115,6 @@ function App() {
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
         <select class="form-select form-select-sm w-25" onChange={e => selection(e.target.options[e.target.selectedIndex].text, e.target.value)} aria-label=".form-select-sm example">
           <option selected hidden >Select language to learn</option>
-
           <option id='opt1' value="questions" >Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
 
@@ -141,6 +147,7 @@ function App() {
         </span>
       </div>
       <center>
+        <br></br>
         <p id='translatedQuestion' className='translatedQuestion' hidden={translatedQuestion}>{translate}</p>
       </center>
       <p id='feedback' className='feedback'></p>
@@ -154,7 +161,7 @@ function App() {
           <p id='animation' className={doAnimate}></p>
           <p id='question' className='question'><b>{q.ask} </b></p>
           
-          <div className='helperImage'>
+          <div id='helper' className={animateDiv}>
           <img hidden={hideImage} src={q.imageurl} width={200} height={200}></img>
           </div>
 

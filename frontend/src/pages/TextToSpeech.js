@@ -2,18 +2,40 @@ import voice from "../images/voice-command.png"
 import snail from "../images/snail.png"
 import options from "../images/options.png"
 import { useState } from "react"
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import SpeechOptions from "./SpeechOptions";
+
 function TextToSpeech() {
-    var [voices,setVoices]=useState([])
-    const [voicesShow,setVoicesShow]=useState(true)
-    var [selectedVoice,setSelectedVoice]=useState("")
+    var [voices, setVoices] = useState([])
+    const [voicesShow, setVoicesShow] = useState(true)
+    var [selectedVoice, setSelectedVoice] = useState("")
+    const [carouselVis,setCarouselVis]=useState(true)
 
-    const voiceOptions = () => {
-        const utterance = new SpeechSynthesisUtterance()
-        utterance.lang="en-US"
+    const responsive = {
+        desktop: {
+          breakpoint: { max: 3000, min: 1024 },
+          items: 3,
+          slidesToSlide: 3 // optional, default to 1.
+        },
+        tablet: {
+          breakpoint: { max: 1024, min: 464 },
+          items: 2,
+          slidesToSlide: 2 // optional, default to 1.
+        },
+        mobile: {
+          breakpoint: { max: 464, min: 0 },
+          items: 1,
+          slidesToSlide: 1 // optional, default to 1.
+        }
+      };
+      
+      
 
-        //talletetaan taulukkoon kaikki web speech apin äänet
-        setVoices(voices= speechSynthesis.getVoices());
-}
+    const showCarousel = () => {
+        setCarouselVis(!carouselVis)
+    
+    }
 
     const speech = () => {
         var msg = new SpeechSynthesisUtterance();
@@ -49,27 +71,28 @@ function TextToSpeech() {
     }
     return (
         <div>
-             <select onChange={e=>setSelectedVoice(e.target.options[e.target.selectedIndex].text)}>
-            {voices.map(v=>(
-                <option>{v.name}</option>
-            ))}
-            {console.log(selectedVoice)}
-             </select>
-             <div className="flex-container">
-            <div className="speechBtns1">
-                {/*bootstarp tooltipit buttoneissa data-bs-toggle + 2 seuraavaa propertya*/}
-                <button class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Normal speech rate" onClick={speech}><img src={voice}></img></button>
+          
+            <div className="flex-container">
+                <div className="speechBtns1">
+                    {/*bootstarp tooltipit buttoneissa data-bs-toggle + 2 seuraavaa propertya*/}
+                    <button class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Normal speech rate" onClick={speech}><img src={voice}></img></button>
                 </div>
                 <div className="speechBtns2">
-                
-                <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Slower speech rate" onClick={slowSpeech}><img src={snail}></img></button>
+
+                    <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Slower speech rate" onClick={slowSpeech}><img src={snail}></img></button>
                 </div>
                 <div className="speechBtns3"></div>
-                <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Speech options" onClick={voiceOptions}><img src={options}></img></button>
-            
+                <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Speech options" onClick={showCarousel}><img src={options}></img></button>
+
+
+            </div> 
+            <div id="carouselDiv" hidden={carouselVis}>
+                <Carousel responsive={responsive}>
+                    <SpeechOptions />
+                </Carousel>
             </div>
 
-           
+
         </div>
 
 
