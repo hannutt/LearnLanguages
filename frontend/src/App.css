@@ -160,5 +160,8 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
   100% {transform: rotate(360deg);;}
 }
 
+.carouselDiv {
+  margin: 10%;
+}
 
 

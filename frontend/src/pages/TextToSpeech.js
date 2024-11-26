@@ -4,10 +4,10 @@ import options from "../images/options.png"
 import { useState } from "react"
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import SpeechOptions from "./SpeechOptions";
+import  {SpeechOptions,SpcRate,VolumeSlider, SetPitch} from "./SpeechOptions";
 
 function TextToSpeech() {
-    var [voices, setVoices] = useState([])
+
     const [voicesShow, setVoicesShow] = useState(true)
     var [selectedVoice, setSelectedVoice] = useState("")
     const [carouselVis,setCarouselVis]=useState(true)
@@ -38,14 +38,34 @@ function TextToSpeech() {
     }
 
     const speech = () => {
+        var voiceList = speechSynthesis.getVoices()
+        var speechRate = document.getElementById("selectedRate").innerText
+        var speechRateInt = parseInt(speechRate)
+        var selectedVolume = document.getElementById("selectedVolume").innerText
+        var volumeFloat = parseFloat(selectedVolume)
+        var speakVoice=document.getElementById("selectedVoice").innerText
+        var speakNumber = parseInt(speakVoice)
+        //jos selectedrate p-tagi on tyhjä, speech rate on 1
+        if (speechRate==='' && volumeFloat==="" )
+        {
+            speechRateInt=1.0
+            volumeFloat=1.0
+        }
         var msg = new SpeechSynthesisUtterance();
+        msg.volume=volumeFloat
+        msg.voice=voiceList[speakNumber]
+        
+        //valittu kieli, esim jos saksa on valittu, speech synthesis puhuu silloin saksaa.
         var lang = document.getElementById("selectedLanguage").innerText
+        //speechraten asetus
+        msg.rate=speechRateInt
         if (lang === '') {
             lang = "en-US"
+            
             msg.text = document.getElementById("question").innerText
             window.speechSynthesis.speak(msg);
         }
-        else {
+        else if (lang !=='') {
             msg.text = document.getElementById("translatedQuestion").innerText
             msg.lang = lang
             window.speechSynthesis.speak(msg);
@@ -86,9 +106,14 @@ function TextToSpeech() {
 
 
             </div> 
+            <br></br>
             <div id="carouselDiv" hidden={carouselVis}>
-                <Carousel responsive={responsive}>
+                <Carousel responsive={responsive} showDots={true}>
                     <SpeechOptions />
+                    <SpcRate/>
+                    <VolumeSlider/>
+                    <SetPitch/>
+                    
                 </Carousel>
             </div>
 

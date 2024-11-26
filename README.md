@@ -25,6 +25,11 @@ that is executed when the user clicks a button.
 
 The text-to-speech feature of this app can also repeat a translated question. For example, the program repeats a question translated into Spanish in Spanish, etc. This is done with a simple variable. When the user selects a language from the html selection component, the onChange event handler sends the language code of the selected language to the function that implements the speaking. The language "value" attribute of each Select component is the language code for that language, which is passed to the function when the user selects the language.
 
+CHANGING WEB SPEECH API VALUES ​​AND SETTINGS
+
+The user can change the voice, speed, pitch and volume of the Speech API. The change settings are displayed in the React Carousel component, where the user can select one or more settings that they want to change.
+the changed settings are visible to the user in the html-p-tag, from where they are also passed to the JavaScript function that implements the speech synthesis.
+
 DATA VISUALIZATION
 
 The application stores the incorrect and correct answers in two state variables. The user can choose whether he wants to see the results in text or visually. The visualization is done with Google charts and the right and wrong answers are shown in a Cauge chart or a pie chart depending on the user's choice.

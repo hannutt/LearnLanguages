@@ -15,7 +15,6 @@ function WordInput(props) {
   var [feedback,setFeedback]=useState("")
   var [answerForHint,setAnswerForHint]=useState("")
   var [iHint,setIhint]=useState(0)
-
  
 
   const saveId = () =>{
@@ -36,7 +35,9 @@ function WordInput(props) {
       setAnswerForHint(answerForHint=res.data)
       console.log(answerForHint[0].hinttext[iHint])
       document.getElementById("userInput").value+=answerForHint[0].hinttext[iHint]
+      //iHint on kierrosmuuttuja, jonka avulla näytetään aina seuraava kirjain.
       setIhint(iHint+1)
+      //tarkistus jos kierrosmuuttuja on suurempi kuin sanan pituus
       if (iHint > answerForHint.length)
       {
         document.getElementById("userInput").value=answerForHint[0].hinttext
@@ -48,18 +49,8 @@ function WordInput(props) {
     
     var apk = localStorage.getItem("apk")
     document.getElementById("translatedQuestion").hidden=true
-    //asynkrooninen staten päivitys, eli näin staten arvo saadaan päivittymään
-    //heti kun funktio suoritetaan.
-    const updatedId = props.questionId + 1
-    props.setQuestionId(updatedId)
-    console.log(updatedId)
-    const res = await axios.get("http://localhost:8800/question/" + updatedId)
-    console.log(res.data)
-    props.setQuestion(res.data)
-    //console.log(userInput)
+   
     const API_URL = "https://api.openai.com/v1/chat/completions"
-
-
     const requestOptions = {
       method: "POST",
       headers: {
@@ -73,18 +64,35 @@ function WordInput(props) {
 
 
     }
-    fetch(API_URL, requestOptions).then(res => res.json()).then(data => {
+    fetch(API_URL, requestOptions).then(res => res.json()).then(async data => {
       var answer=data.choices[0].message.content
       var answerLower=answer.toLowerCase()
       setAnswerForHint(answerLower)
+      
 
       if (userInput === answerLower || answerLower.includes(userInput)) {
+        //asynkrooninen staten päivitys, eli näin staten arvo saadaan päivittymään
+        const updatedId = props.questionId + 1
+        props.setQuestionId(updatedId)
+        console.log(updatedId)
+        const res = await axios.get("http://localhost:8800/question/" + updatedId)
+        console.log(res.data)
+        props.setQuestion(res.data)
         setCorrectAns(correctAns + 1)
         setFeedback(feedback="CORRECT")
         //kutsutaan apps.js:llä olevaa apufunktiota, jolle annetaan parametrina feedback state
         props.getFeedback(feedback)
         //jos vastaus on oikea, niin nollataan askhint funktion kierrosmuuttuja
         setIhint(iHint=0)
+        /*
+        if (updatedId>=4 && failedQuestions.length>0)
+          {
+            
+            const res = await axios.get("http://localhost:8800/question/" +1)
+            console.log(res.data)
+            props.setQuestion(res.data)
+  
+          }*/
 
         //css-animaation toteutus aina uuden kuvan yhteydessä. tässä tapauksessa
         //animaatio toteutetaan vaihtamalla css-luokan nimeä helperImage-helperImageRestart välillä
@@ -100,10 +108,7 @@ function WordInput(props) {
        
 
       }
-      else {
-        setWrongAns(wrongAns+1)
-        setIhint(iHint=0)
-      }
+     
     }).catch((error) => {
       console.log(error)
 
@@ -114,7 +119,9 @@ function WordInput(props) {
   return (
 
     <div>
-     
+     <p id="selectedRate"></p>
+     <p id="selectedVoice"></p>
+     <p id="selectedVolume"></p>
       <div className="flex-containerWI">
       <input id='userInput' className="userInput" placeholder='Your answer' onChange={e => setUserInput(e.target.value.toLowerCase())}></input>
       <div className="inputBtnDiv">

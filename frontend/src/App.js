@@ -12,7 +12,7 @@ function App() {
   const [question, setQuestion] = useState([])
   const [questionId, setQuestionId] = useState(1)
   var [table, setTable] = useState("")
-  const [doAnimate, setDoAnimate] = useState()
+ 
   var [userSelect, setUserSelect] = useState("")
   var [learnCB, setLearnCB] = useState(true)
   var [translate, setTranslate] = useState([])
@@ -85,7 +85,7 @@ function App() {
     if (savedId !== null) {
       const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${savedId}`)
       setQuestion(res.data)
-      setDoAnimate("animate")
+    
 
     }
     else {
@@ -93,7 +93,7 @@ function App() {
     alkaa ja & tarkoittaa seuraavaa queryparamia*/}
       const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${questionId}`)
       setQuestion(res.data)
-      setDoAnimate("animate")
+   
     }
   }
 
@@ -158,7 +158,7 @@ function App() {
 
           {/*animaatio suoritetaan kun doanimaten arvokksi tulee animate merkkijono, eli css-tiedoston
           tyylimääritys*/}
-          <p id='animation' className={doAnimate}></p>
+         
           <p id='question' className='question'><b>{q.ask} </b></p>
           
           <div id='helper' className={animateDiv}>
