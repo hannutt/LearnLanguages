@@ -7,7 +7,7 @@ import microphone16px from "../images/microphone16px.png"
 
 function WordInput(props) {
   const [userInput, setUserInput] = useState("")
-  const [askedQuestion, setAskedQuestion] = useState("")
+
   const [correctAns, setCorrectAns] = useState(0)
   const [wrongAns, setWrongAns] = useState(0)
   const [visualization,setVisualization]=useState(false)
@@ -15,6 +15,17 @@ function WordInput(props) {
   var [feedback,setFeedback]=useState("")
   var [answerForHint,setAnswerForHint]=useState("")
   var [iHint,setIhint]=useState(0)
+
+  const VoiceTotext=()=>{
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
+    recognition.lang = 'fi-FI';
+    recognition.start();
+    recognition.onresult = (event) => {
+    const transcript = event.results[0][0].transcript
+    document.getElementById("userInput").value=transcript
+
+  }
+}
  
 
   const saveId = () =>{
@@ -97,11 +108,11 @@ function WordInput(props) {
         //css-animaation toteutus aina uuden kuvan yhteydessä. tässä tapauksessa
         //animaatio toteutetaan vaihtamalla css-luokan nimeä helperImage-helperImageRestart välillä
         //luokan vaihtamisella saadaan käynnistettyä animaatio aina uudelleen.
-        if ( document.getElementById("helper").className=="helperImageRestart")
+        if ( document.getElementById("helper").className==="helperImageRestart")
         {
           document.getElementById("helper").className="helperImage"
         }
-        else if (document.getElementById("helper").className=="helperImage")
+        else if (document.getElementById("helper").className==="helperImage")
         {
          document.getElementById("helper").className="helperImageRestart" 
         }
@@ -128,7 +139,7 @@ function WordInput(props) {
       <button id="inputBtn" class="btn btn-info btn-sm" onClick={handleClick}>Check answer</button>
       </div>
       <div className="microphone">
-        <button class="btn btn-info btn-sm"><img src={microphone16px}></img></button>
+        <button class="btn btn-info btn-sm" onClick={VoiceTotext}><img src={microphone16px} alt="microphone"></img></button>
       </div>
      
       <div className="hintBtnDiv">
@@ -156,7 +167,7 @@ function WordInput(props) {
      
       <center>
         {/*google chartin valinta gauge/piechart riippuen ctypen arvost*/}
-        {visualization && cType=="Gauge" && <Chart
+        {visualization && cType==="Gauge" && <Chart
       // google chart komponentti
       chartType={cType}
       data={[

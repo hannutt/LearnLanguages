@@ -7,7 +7,7 @@ import 'react-multi-carousel/lib/styles.css';
 import  {SpeechOptions,SpcRate,VolumeSlider, SetPitch} from "./SpeechOptions";
 
 function TextToSpeech() {
-
+    const [voices,setVoices]=useState([])
     const [voicesShow, setVoicesShow] = useState(true)
     var [selectedVoice, setSelectedVoice] = useState("")
     const [carouselVis,setCarouselVis]=useState(true)
@@ -49,6 +49,14 @@ function TextToSpeech() {
             selectedVolume=1.0
             speechRate=1.0
         }
+        else if (selectedVolume==='')
+        {
+            selectedVolume=1.0
+        }
+        else if (speechRate==='')
+        {
+            speechRate=1.0
+        }
         var speechRateInt = parseInt(speechRate)
         var volumeFloat = parseFloat(selectedVolume)
         var speakVoice=document.getElementById("selectedVoice").innerText
@@ -57,13 +65,11 @@ function TextToSpeech() {
         
      
         msg.volume=volumeFloat
+        //asetetaan ääneksi käyttäjän valitsema ääni, äänet ovat listassa ja valinta tapahtuu
+        //numeron (speaknumber) perusteella.
         msg.voice=voiceList[speakNumber]
         msg.rate=speechRateInt
-            
-    
-        
-       
-        
+             
         //valittu kieli, esim jos saksa on valittu, speech synthesis puhuu silloin saksaa.
         var lang = document.getElementById("selectedLanguage").innerText
         //speechraten asetus

@@ -65,6 +65,7 @@ function App() {
 
   const handleClick = async () => {
     var savedId = localStorage.getItem("id")
+    //jos aikarajoitus on valittu
     if (limited) {
       setInterval(() => {
         setTimeToAnswer(timeToAnswer -= 1)
@@ -107,7 +108,7 @@ function App() {
   }
   return (
     <div className="App">
-      <img src={learnHeader}></img>
+      <img src={learnHeader} alt='Header image'></img>
       <br></br>
       <h2 className='lngHeader'>Languages</h2>
     
@@ -155,14 +156,11 @@ function App() {
       {question.map(q => (
         
         <center>
-
-          {/*animaatio suoritetaan kun doanimaten arvokksi tulee animate merkkijono, eli css-tiedoston
-          tyylimääritys*/}
          
           <p id='question' className='question'><b>{q.ask} </b></p>
           
           <div id='helper' className={animateDiv}>
-          <img hidden={hideImage} src={q.imageurl} width={200} height={200}></img>
+          <img hidden={hideImage} src={q.imageurl} alt='helper image' width={200} height={200}></img>
           </div>
 
         </center>
