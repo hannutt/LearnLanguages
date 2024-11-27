@@ -40,25 +40,34 @@ function TextToSpeech() {
     const speech = () => {
         var voiceList = speechSynthesis.getVoices()
         var speechRate = document.getElementById("selectedRate").innerText
-        var speechRateInt = parseInt(speechRate)
+       
         var selectedVolume = document.getElementById("selectedVolume").innerText
+        //jos rate ja volume arvoja ei ole muutettu, täytyy if-lause olla
+        //tässä kohtaa, että puhe toimii.
+        if (selectedVolume==='' && speechRate==='')
+        {
+            selectedVolume=1.0
+            speechRate=1.0
+        }
+        var speechRateInt = parseInt(speechRate)
         var volumeFloat = parseFloat(selectedVolume)
         var speakVoice=document.getElementById("selectedVoice").innerText
         var speakNumber = parseInt(speakVoice)
-        //jos selectedrate p-tagi on tyhjä, speech rate on 1
-        if (speechRate==='' && volumeFloat==="" )
-        {
-            speechRateInt=1.0
-            volumeFloat=1.0
-        }
         var msg = new SpeechSynthesisUtterance();
+        
+     
         msg.volume=volumeFloat
         msg.voice=voiceList[speakNumber]
+        msg.rate=speechRateInt
+            
+    
+        
+       
         
         //valittu kieli, esim jos saksa on valittu, speech synthesis puhuu silloin saksaa.
         var lang = document.getElementById("selectedLanguage").innerText
         //speechraten asetus
-        msg.rate=speechRateInt
+        
         if (lang === '') {
             lang = "en-US"
             
@@ -108,7 +117,7 @@ function TextToSpeech() {
             </div> 
             <br></br>
             <div id="carouselDiv" hidden={carouselVis}>
-                <Carousel responsive={responsive} showDots={true}>
+                <Carousel responsive={responsive}>
                     <SpeechOptions />
                     <SpcRate/>
                     <VolumeSlider/>
