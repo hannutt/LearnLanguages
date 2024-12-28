@@ -15,14 +15,22 @@ function WordInput(props) {
   var [feedback,setFeedback]=useState("")
   var [answerForHint,setAnswerForHint]=useState("")
   var [iHint,setIhint]=useState(0)
-
+  var [countClicks,setCountClicks]=useState(1)
+  
   const VoiceTotext=()=>{
+    setCountClicks(countClicks+1)
+    console.log(countClicks)
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition)();
     recognition.lang = 'fi-FI';
     recognition.start();
     recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript
     document.getElementById("userInput").value=transcript
+    recognition.onspeechend=()=>{
+      recognition.stop();
+      console.log("Speech recognition has stopped.");
+
+    }
 
   }
 }
@@ -118,6 +126,11 @@ function WordInput(props) {
         }
        
 
+      }
+      else{
+        setFeedback(feedback="INCORRECT")
+        //kutsutaan apps.js:llä olevaa apufunktiota, jolle annetaan parametrina feedback state
+        props.getFeedback(feedback)
       }
      
     }).catch((error) => {

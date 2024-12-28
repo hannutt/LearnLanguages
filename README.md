@@ -12,13 +12,19 @@ The questions are of the form "how do you say good day in Finnish? etc." The use
 
 Finally, the response given by the user is compared with the response given by the Chat GPT API.
 
+
 ANSWERING A QUESTION BY SPEAKING
 
-The user can also use the computer's microphone to answer questions. start using the microphone by clicking on the microphone icon. After clicking, a JavaScript function is executed that uses the SpeechRecognition library for speech recognition. Once the user's speech is recognized, it is converted to text and the text is added to the HTML input field.
+The user can also use the computer's microphone to answer questions. start using the microphone by clicking on the microphone icon. After clicking, a JavaScript function is executed that uses the SpeechRecognition library for speech recognition. Once the user's speech is recognized, it is converted to text and the text is added to the HTML input field. The microphone closes automatically with the onspeechend method.
 
 TRANSLATION OF THE QUESTION INTO THE DESIRED LANGUAGE
 
 The questions are presented in English by default. However, the user can translate the questions by choosing the language they want from the available options. Once the language is selected, an English question is sent to the LibreTranslate API using JavaScript's fetch method. as a response, the API returns the translated question and it is displayed in the HTML frontend.
+
+Example image where the user has translated the given question from English to German using the LibreTranslate API
+
+![alt text](frontend/src/images/LLapp.png)
+
 
 LISTENING THE QUESTION
 
