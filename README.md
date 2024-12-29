@@ -34,6 +34,11 @@ that is executed when the user clicks a button.
 
 The text-to-speech feature of this app can also repeat a translated question. For example, the program repeats a question translated into Spanish in Spanish, etc. This is done with a simple variable. When the user selects a language from the html selection component, the onChange event handler sends the language code of the selected language to the function that implements the speaking. The language "value" attribute of each Select component is the language code for that language, which is passed to the function when the user selects the language.
 
+LISTEN TO THE ENGLISH SENTENCES AND WRITE THE ANSWER IN FINNISH
+
+The program uses mp3 files with short sentences suitable for language learning. 
+The user first listens to the sentence and writes the answer in the input field. the response of the input field is stored in a state variable and given as a parameter to the JS fetch method that communicates with the GPT API. The GPT-API checks the user's answer and if the answer is correct, the user can listen to a new sentence.
+
 CHANGING WEB SPEECH API VALUES ​​AND SETTINGS
 
 The user can change the voice, speed, pitch and volume of the Speech API. The change settings are displayed in the React Carousel component, where the user can select one or more settings that they want to change.
