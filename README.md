@@ -12,6 +12,10 @@ The questions are of the form "how do you say good day in Finnish? etc." The use
 
 Finally, the response given by the user is compared with the response given by the Chat GPT API.
 
+Example picture where the user has selected the Swedish language from the Select component and the first question retrieved from the SQL database is displayed.
+
+![alt text](frontend/src/images/LLswe.png)
+
 
 ANSWERING A QUESTION BY SPEAKING
 
