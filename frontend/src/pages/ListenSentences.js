@@ -17,6 +17,7 @@ var sentences=[hello,dog]
       console.log(pbRate)
       
       var audio = new Audio(sentences[sentenceVar])
+      //äänitiedoston puheäänen nopeus
       audio.playbackRate=pbRate
       audio.play()
 

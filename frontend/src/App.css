@@ -1,12 +1,21 @@
 .App {
   text-align: center;
   background-image: url("./images/learnBG.jpg");
-  background-position: center;
   /*
+ 
+  /*taustakuva peittää koko näytön tällä */
   background-repeat: no-repeat;
   background-size: cover;
-  */
-  height: 100%; 
+  height: 100vh;
+  width: 100vw;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: scroll;
+
  
 }
 
@@ -56,10 +65,10 @@
   to {background-color: black;}
 }
 .correct {
-  color: green;
+  color: #6fed78
 }
 .wrong {
-  color:red;
+  color:#fa4d53
 }
 
 .translatedQuestion {
@@ -78,12 +87,16 @@
   position: absolute;
   top:275px;
   font-weight: bold;
+  color: #c1d6d1
 }
 /*divin inputit oikealle*/
 .visualDiv input{
   float:right;
   text-indent:10px;
   margin-left: 5px;
+}
+.visualDiv label {
+  float: left;
 }
 .saveBtn {
   position: absolute;

@@ -23,7 +23,7 @@ function App() {
   var [translatedQuestion, setTranslatedQuestion] = useState(true)
   var [timeToAnswer, setTimeToAnswer] = useState(60)
   const [limited, setLimited] = useState(false)
-  const [hideImage,setHideImage]=useState(false)
+  const [hideImage,setHideImage]=useState(true)
   var [animateDiv,setAnimateDiv]=useState("helperImage")
   
 
@@ -81,6 +81,7 @@ function App() {
     setTranslatedQuestion(translatedQuestion = true)
     setOptionsDiv(!optionsDiv)
     setStartLearn(!startLearn)
+    setHideImage(!hideImage)
     //const res = await axios.get("http://localhost:8800/question/" + questionId)
 
 
@@ -106,12 +107,12 @@ function App() {
     setUserSelect(table = ev)
     setTable(table = evt)
     setLearnCB(learnCB = false)
-    console.log(table)
+    
 
   }
   return (
     <div className="App">
-      <img src={learnHeader} alt='Header image'></img>
+      <img src={learnHeader} alt='Header'></img>
       <br></br>
       <h2 className='lngHeader'>Languages</h2>
     
@@ -119,7 +120,7 @@ function App() {
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
         <select class="form-select form-select-sm w-25" onChange={e => selection(e.target.options[e.target.selectedIndex].text, e.target.value)} aria-label=".form-select-sm example">
           <option selected hidden >Select language to learn</option>
-          <option id='opt1' value="questions" >Finnish</option>
+          <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
 
         </select>
@@ -164,10 +165,10 @@ function App() {
         
         <center>
          
-          <p id='question' className='question'><b>{q.ask} </b></p>
+          <p id='question' hidden={hideImage} className='question'><b>{q.ask} </b></p>
           
           <div id='helper' className={animateDiv}>
-          <img hidden={hideImage} src={q.imageurl} alt='helper image' width={200} height={200}></img>
+          <img hidden={hideImage} src={q.imageurl} alt='helper' width={200} height={200}></img>
           </div>
 
         </center>
@@ -178,7 +179,7 @@ function App() {
       <br></br>
       {/*jos starlearn on true eli checkboksia on klikattu näytetään wordinput komponentti
       samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}
-      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} />}
+      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} />}
 
     </div>
   );

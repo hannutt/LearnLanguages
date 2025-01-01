@@ -118,7 +118,7 @@ function TextToSpeech(props) {
                     <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Slower speech rate" onClick={slowSpeech}><img src={snail}></img></button>
                 </div>
                 <div className="speechBtns3" hidden={props.flexCont}></div>
-                <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Speech options" onClick={showCarousel}><img src={options}></img></button>
+                <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Speech options" onClick={showCarousel} hidden={props.flexCont}><img src={options}></img></button>
 
 
             </div> 
