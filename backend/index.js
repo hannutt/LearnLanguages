@@ -31,9 +31,10 @@ app.get("/question/:id",(req,res)=>{
     })
 })
 
-app.get("/voice",(req,res)=>{
-    const query="SELECT * FROM voicetext WHERE id=1"
-    db.query(query,(err,data)=>{
+app.get("/voice/:id",(req,res)=>{
+    const query="SELECT * FROM voicetext WHERE id=?"
+    const val = [req.params.id]
+    db.query(query,[val],(err,data)=>{
         if (err) return res.json(err)
         return res.json(data)
     })

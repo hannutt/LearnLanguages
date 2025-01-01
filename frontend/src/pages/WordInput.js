@@ -3,7 +3,7 @@ import axios from "axios"
 import TextToSpeech from "./TextToSpeech";
 import { Chart } from "react-google-charts";
 import microphone16px from "../images/microphone16px.png"
-
+import ListenSentences from '../pages/ListenSentences';
 
 function WordInput(props) {
   const [userInput, setUserInput] = useState("")
@@ -16,7 +16,11 @@ function WordInput(props) {
   var [answerForHint,setAnswerForHint]=useState("")
   var [iHint,setIhint]=useState(0)
   var [countClicks,setCountClicks]=useState(1)
+  const [listenCB,setListenCB]=useState(false)
+  const [flexCont,setFlexCont]=useState(false)
   
+
+  //mikrofonin kautta saadun äänen muunto tekstiksi.
   const VoiceTotext=()=>{
     setCountClicks(countClicks+1)
     console.log(countClicks)
@@ -146,7 +150,11 @@ function WordInput(props) {
      <p id="selectedRate"></p>
      <p id="selectedVoice"></p>
      <p id="selectedVolume"></p>
-      <div className="flex-containerWI">
+     {/*päivitetään correctAns/wrongsAns statea listensentences komponentissa antamalla ne parametrina listensentences komponentille*/}
+     {listenCB && <ListenSentences setCorrectAns={setCorrectAns} correctAns={correctAns} setWrongAns={setWrongAns} wrongAns={wrongAns}/>}
+     <input class="form-check-input" type="checkbox" id="listenCB" onChange={() => {setListenCB(!listenCB);setFlexCont(!flexCont)}} />
+     <label class="form-check-label" for="listenCB">Listen to the sentences</label>
+      <div className="flex-containerWI" hidden={flexCont}>
       <input id='userInput' className="userInput" placeholder='Your answer' onChange={e => setUserInput(e.target.value.toLowerCase())}></input>
       <div className="inputBtnDiv">
       <button id="inputBtn" class="btn btn-info btn-sm" onClick={handleClick}>Check answer</button>
@@ -162,8 +170,8 @@ function WordInput(props) {
       <span className="saveBtn">
       <button id="save" class="btn btn-info btn-sm" onClick={saveId}>Save & continue later</button>
       </span>
-      
-      <TextToSpeech/>
+      {/*lähetetään texttospeech komponentille flexcont state muuttuja*/}
+      <TextToSpeech flexCont={flexCont}/>
       <div className="answers">
       <h5 className="correct">Correct answers: {correctAns}</h5>
       <h5 className="wrong">Wrong answers: {wrongAns}</h5>

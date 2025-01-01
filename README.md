@@ -39,6 +39,9 @@ LISTEN TO THE ENGLISH SENTENCES AND WRITE THE ANSWER IN FINNISH
 The program uses mp3 files with short sentences suitable for language learning. 
 The user first listens to the sentence and writes the answer in the input field. the response of the input field is stored in a state variable and given as a parameter to the JS fetch method that communicates with the GPT API. The GPT-API checks the user's answer and if the answer is correct, the user can listen to a new sentence.
 
+The user can adjust the audio speed of the mp3 file to be slower or faster with the push of a button.
+This is done with the JavaScript playbackRate method. PlaybackRate defaults to 1.0 and is stored in the React State variable. Depending on the user's choice, the value of the playback rate is increased or decreased by 0.5 per click
+
 CHANGING WEB SPEECH API VALUES ​​AND SETTINGS
 
 The user can change the voice, speed, pitch and volume of the Speech API. The change settings are displayed in the React Carousel component, where the user can select one or more settings that they want to change.

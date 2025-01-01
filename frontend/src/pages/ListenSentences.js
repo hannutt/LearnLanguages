@@ -3,22 +3,34 @@ import hello from '../sounds/hello.mp3'
 import dog from '../sounds/dog-barking.mp3'
 import axios from 'axios'
 import { useState } from 'react'
-function ListenSentences() {
+import options from "../images/options.png"
+function ListenSentences(props) {
     
 var [voiceText,SetVoiceText]=useState("")
 var [userContent,setUserContent]=useState("")
+const [sentenceVar,setSentenceVar]=useState(0)
+var [pbRate,setPbRate]=useState(1.0)
    
 var sentences=[hello,dog]
-var i = 0
-    const playVoice=async()=>{
-        const res = await axios.get("http://localhost:8800/voice")
-        SetVoiceText(res.data[0].voicetxt)
-        var audio = new Audio(sentences[i])
-        audio.play()
-        i+=1
+
+    const playVoice=async ()=>{
+      console.log(pbRate)
+      
+      var audio = new Audio(sentences[sentenceVar])
+      audio.playbackRate=pbRate
+      audio.play()
+
+      const updated = sentenceVar+1
+      setSentenceVar(updated)
+      const res = await axios.get("http://localhost:8800/voice/"+updated)
+        //tietokannan datan talennus stateen.
+      SetVoiceText(res.data[0].voicetxt)
+    
+
     }
+
+   
     const checkUserInput=()=>{
-        console.log(voiceText)
         
         var apk = localStorage.getItem("apk")
       
@@ -38,17 +50,26 @@ var i = 0
     
         }
         fetch(API_URL, requestOptions).then(res => res.json()).then(async data => {
-          var answer=data.choices[0].message.content
-          console.log(answer)
+          var gptanswer=data.choices[0].message.content
+          gptanswer=gptanswer.toLowerCase()
+          if (userContent===gptanswer || gptanswer.includes(userContent))
+          {
+            //nämä statet saadaan parametrina wordinput.js:tä
+            props.setCorrectAns(props.correctAns+1)
+          }
+          else{
+            props.setWrongAns(props.wrongAns+1)
+          }
         })
     }
     return(
         <div>
-            <button onClick={playVoice}>Listen</button>
-            <p hidden id="voicetxt">{voiceText}</p>
+            <button class="btn btn-primary btn-sm" onClick={playVoice}>Listen</button>
+            <p id="voicetxt">{voiceText}</p>
             <input type='text' id='answer' placeholder='Write your answer here' onChange={e=>setUserContent(e.target.value)}></input>
-            {console.log(userContent)}
-            <button onClick={checkUserInput}>Check answer</button>
+            <button class="btn btn-primary btn-sm" onClick={checkUserInput}>Check answer</button>
+            <button class="btn btn-info btn-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Manipulate speech rate"onClick={()=>setPbRate(pbRate=0.5)}><img src={options}></img></button>
+            
         </div>
     )
 

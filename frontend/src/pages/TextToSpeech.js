@@ -6,7 +6,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import  {SpeechOptions,SpcRate,VolumeSlider, SetPitch} from "./SpeechOptions";
 
-function TextToSpeech() {
+function TextToSpeech(props) {
     const [voices,setVoices]=useState([])
     const [voicesShow, setVoicesShow] = useState(true)
     var [selectedVoice, setSelectedVoice] = useState("")
@@ -108,15 +108,16 @@ function TextToSpeech() {
         <div>
           
             <div className="flex-container">
-                <div className="speechBtns1">
+                {/*props.flexcont on wordinput.js:llä luotu statemuuttuja jota käytetään molemissa komponenteissa */ }
+                <div className="speechBtns1" hidden={props.flexCont}>
                     {/*bootstarp tooltipit buttoneissa data-bs-toggle + 2 seuraavaa propertya*/}
                     <button class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top" title="Normal speech rate" onClick={speech}><img src={voice}></img></button>
                 </div>
-                <div className="speechBtns2">
+                <div className="speechBtns2" hidden={props.flexCont}>
 
                     <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Slower speech rate" onClick={slowSpeech}><img src={snail}></img></button>
                 </div>
-                <div className="speechBtns3"></div>
+                <div className="speechBtns3" hidden={props.flexCont}></div>
                 <button class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Speech options" onClick={showCarousel}><img src={options}></img></button>
 
 

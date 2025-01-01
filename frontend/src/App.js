@@ -1,11 +1,12 @@
 
 import './App.css';
+import './index.css';
 import WordInput from "./pages/WordInput"
 import axios from "axios"
 import learnHeader from "./images/learnHeader.jpg"
 
 import { useState, useEffect } from 'react';
-import ListenSentences from './pages/ListenSentences';
+
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
   const [limited, setLimited] = useState(false)
   const [hideImage,setHideImage]=useState(false)
   var [animateDiv,setAnimateDiv]=useState("helperImage")
-  const [listenCB,setListenCB]=useState(false)
+  
 
   /*
   useEffect(()=>{
@@ -132,11 +133,10 @@ function App() {
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="timeLimitCB" onChange={() => setLimited(!limited)} />
         <label class="form-check-label" hidden={learnCB} for="timeLimitCB">Time Limited?</label>
         <br></br>
-        <input class="form-check-input" hidden={learnCB} type="checkbox" id="listenCB" onChange={() => setListenCB(!listenCB)} />
-        <label class="form-check-label" hidden={learnCB} for="listenCB">Listen to the sentences</label>
+       
       </center>
 
-      {listenCB && <ListenSentences/>}
+     
 
 
       <p id='selectedLanguage'>{selLanguage}</p>
