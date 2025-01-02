@@ -25,6 +25,7 @@ function App() {
   const [limited, setLimited] = useState(false)
   const [hideImage,setHideImage]=useState(true)
   var [animateDiv,setAnimateDiv]=useState("helperImage")
+  const [listenTranslate,setListenTranslate]=useState(true)
   
 
   /*
@@ -45,9 +46,20 @@ function App() {
   },3000);
 
  }
+ //funktio toteuttaa tekstin puheeksi käännetyn kysymyksen osalta
+ const listen=()=> {
+  //käännetty kysymys
+  var q = document.getElementById("translatedQuestion").innerText
+  
+  const utterance = new SpeechSynthesisUtterance(q);
+  //puheen kielen asetus
+  utterance.lang=selLanguage
+  speechSynthesis.speak(utterance);
+ }
 
   const translateText = async () => {
     setTranslatedQuestion(!translatedQuestion)
+    setListenTranslate(!listenTranslate)
 
     var questionTranslate = document.getElementById("question").innerText
     const res = await fetch("http://127.0.0.1:5000/translate", {
@@ -153,6 +165,7 @@ function App() {
         </select>
         <span className='translateBtn'>
         <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
+        <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button> 
         </span>
       </div>
       <center>

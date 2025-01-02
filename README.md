@@ -12,6 +12,10 @@ The questions are of the form "how do you say good day in Finnish? etc." The use
 
 Finally, the response given by the user is compared with the response given by the Chat GPT API.
 
+Example image of the application's scoreboard, which is updated based on whether the user's answer is correct or incorrect.
+
+![alt text](frontend/src/images/LLui.png)
+
 Example picture where the user has selected the Swedish language from the Select component and the first question retrieved from the SQL database is displayed.
 
 ![alt text](frontend/src/images/LLswe.png)
@@ -23,7 +27,7 @@ The user can also use the computer's microphone to answer questions. start using
 
 TRANSLATION OF THE QUESTION INTO THE DESIRED LANGUAGE
 
-The questions are presented in English by default. However, the user can translate the questions by choosing the language they want from the available options. Once the language is selected, an English question is sent to the LibreTranslate API using JavaScript's fetch method. as a response, the API returns the translated question and it is displayed in the HTML frontend.
+The questions are presented in English by default. However, the user can translate the questions by choosing the language they want from the available options. Once the language is selected, an English question is sent to the LibreTranslate API using JavaScript's fetch method. as a response, the API returns the translated question and it is displayed in the HTML frontend. The program can also converts the translated question from text to speech using the Speech Synthesis API.
 
 Example image where the user has translated the given question from English to German using the LibreTranslate API
 
