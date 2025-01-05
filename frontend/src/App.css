@@ -177,5 +177,10 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
 .slider {
   accent-color: red;
 }
+.comWords {
+  color:white;
+  border: 1px solid white;
+  width: 10%;
+}
 
 

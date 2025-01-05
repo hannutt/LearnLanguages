@@ -4,7 +4,7 @@ import './index.css';
 import WordInput from "./pages/WordInput"
 import axios from "axios"
 import learnHeader from "./images/learnHeader.jpg"
-
+import words from './pages/words.json'
 import { useState, useEffect } from 'react';
 
 
@@ -14,7 +14,7 @@ function App() {
   const [question, setQuestion] = useState([])
   const [questionId, setQuestionId] = useState(1)
   var [table, setTable] = useState("")
- 
+
   var [userSelect, setUserSelect] = useState("")
   var [learnCB, setLearnCB] = useState(true)
   var [translate, setTranslate] = useState([])
@@ -23,40 +23,43 @@ function App() {
   var [translatedQuestion, setTranslatedQuestion] = useState(true)
   var [timeToAnswer, setTimeToAnswer] = useState(60)
   const [limited, setLimited] = useState(false)
-  const [hideImage,setHideImage]=useState(true)
-  var [animateDiv,setAnimateDiv]=useState("helperImage")
-  const [listenTranslate,setListenTranslate]=useState(true)
-  
+  const [hideImage, setHideImage] = useState(true)
+  var [animateDiv, setAnimateDiv] = useState("helperImage")
+  const [listenTranslate, setListenTranslate] = useState(true)
+  const [comWords,setComWords]=useState(true)
+ 
+
 
   /*
   useEffect(()=>{
     setAnimateDiv(animateDiv="helperImage")
   },[animateDiv])
   */
-  
- //data parametrin arvo saadaan wordinput komponentista, parametri sisältää wordinput komponentissa
- //määritetyn feedback state-muuttujan.
- const getFeedback = (data) => {
 
-  document.getElementById("feedback").innerText=data
-  setTimeout(() => {
-    //feedback elementin sisältö poistetaan 3 sek kuluttua.
-    document.getElementById("feedback").innerText=""
-    
-  },3000);
+  //data parametrin arvo saadaan wordinput komponentista, parametri sisältää wordinput komponentissa
+  //määritetyn feedback state-muuttujan.
+  const getFeedback = (data) => {
 
- }
- //funktio toteuttaa tekstin puheeksi käännetyn kysymyksen osalta
- const listen=()=> {
-  //käännetty kysymys
-  var q = document.getElementById("translatedQuestion").innerText
-  
-  const utterance = new SpeechSynthesisUtterance(q);
-  //puheen kielen asetus
-  utterance.lang=selLanguage
-  speechSynthesis.speak(utterance);
- }
+    document.getElementById("feedback").innerText = data
+    setTimeout(() => {
+      //feedback elementin sisältö poistetaan 3 sek kuluttua.
+      document.getElementById("feedback").innerText = ""
 
+    }, 3000);
+
+  }
+  //funktio toteuttaa tekstin puheeksi käännetyn kysymyksen osalta
+  const listen = () => {
+    //käännetty kysymys
+    var q = document.getElementById("translatedQuestion").innerText
+
+    const utterance = new SpeechSynthesisUtterance(q);
+    //puheen kielen asetus
+    utterance.lang = selLanguage
+    speechSynthesis.speak(utterance);
+  }
+
+  //libretranslaten käyttö kääntämiseen
   const translateText = async () => {
     setTranslatedQuestion(!translatedQuestion)
     setListenTranslate(!listenTranslate)
@@ -67,6 +70,7 @@ function App() {
       body: JSON.stringify({
         q: questionTranslate,
         source: "auto",
+        //kieli johon käännetään on käyttäjän valitsema ja se on talletettu state muuttujaan
         target: selLanguage,
       }),
       headers: { "Content-Type": "application/json" }
@@ -76,6 +80,7 @@ function App() {
     setTranslate(translate = data.translatedText)
 
   }
+  
 
 
   const handleClick = async () => {
@@ -102,7 +107,7 @@ function App() {
     if (savedId !== null) {
       const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${savedId}`)
       setQuestion(res.data)
-    
+
 
     }
     else {
@@ -110,16 +115,17 @@ function App() {
     alkaa ja & tarkoittaa seuraavaa queryparamia*/}
       const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${questionId}`)
       setQuestion(res.data)
-   
+
     }
   }
+ 
 
   //evt on select-komponentista valitun taulun nimi
   const selection = (ev, evt) => {
     setUserSelect(table = ev)
     setTable(table = evt)
     setLearnCB(learnCB = false)
-    
+
 
   }
   return (
@@ -127,7 +133,7 @@ function App() {
       <img src={learnHeader} alt='Header'></img>
       <br></br>
       <h2 className='lngHeader'>Languages</h2>
-    
+
       <center>
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
         <select class="form-select form-select-sm w-25" onChange={e => selection(e.target.options[e.target.selectedIndex].text, e.target.value)} aria-label=".form-select-sm example">
@@ -136,6 +142,17 @@ function App() {
           <option id='opt2' value="questionswe">Swedish</option>
 
         </select>
+        <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={()=>setComWords(!comWords)}>common {userSelect} words</button>
+        
+        {/*json tiedoston olioiden läpikäynti map funktiolla ja tulostus p-tagiin*/}
+        {words.map((w) => (
+          <div className='comWords' hidden={comWords}>
+            <p>{w.fi} {w.en}</p>
+          </div>
+        ))}
+        
+        
+    
       </center>
 
 
@@ -146,10 +163,10 @@ function App() {
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="timeLimitCB" onChange={() => setLimited(!limited)} />
         <label class="form-check-label" hidden={learnCB} for="timeLimitCB">Time Limited?</label>
         <br></br>
-       
+
       </center>
 
-     
+
 
 
       <p id='selectedLanguage'>{selLanguage}</p>
@@ -164,8 +181,8 @@ function App() {
           <option value="fr">French</option>
         </select>
         <span className='translateBtn'>
-        <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
-        <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button> 
+          <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
+          <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button>
         </span>
       </div>
       <center>
@@ -175,13 +192,13 @@ function App() {
       <p id='feedback' className='feedback'></p>
       <br></br>
       {question.map(q => (
-        
+
         <center>
-         
+
           <p id='question' hidden={hideImage} className='question'><b>{q.ask} </b></p>
-          
+
           <div id='helper' className={animateDiv}>
-          <img hidden={hideImage} src={q.imageurl} alt='helper' width={200} height={200}></img>
+            <img hidden={hideImage} src={q.imageurl} alt='helper' width={200} height={200}></img>
           </div>
 
         </center>
@@ -192,7 +209,7 @@ function App() {
       <br></br>
       {/*jos starlearn on true eli checkboksia on klikattu näytetään wordinput komponentti
       samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}
-      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} />}
+      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} hideImage={hideImage} setHideImage={setHideImage} setOptionsDiv={setOptionsDiv} optionsDiv={optionsDiv} />}
 
     </div>
   );

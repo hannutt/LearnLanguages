@@ -28,9 +28,11 @@ function WordInput(props) {
     recognition.lang = 'fi-FI';
     recognition.start();
     recognition.onresult = (event) => {
+
       const transcript = event.results[0][0].transcript
       document.getElementById("userInput").value = transcript
       recognition.onspeechend = () => {
+        
         recognition.stop();
         console.log("Speech recognition has stopped.");
 
@@ -161,7 +163,7 @@ function WordInput(props) {
   return (
 
     <div>
-      <input class="form-check-input" type="checkbox" id="listenCB" onChange={() => { setListenCB(!listenCB); setFlexCont(!flexCont) }} />
+      <input class="form-check-input" type="checkbox" id="listenCB" onChange={() => { setListenCB(!listenCB); setFlexCont(!flexCont);props.setHideImage(!props.hideImage);props.setOptionsDiv(!props.optionsDiv) }} />
       <label class="form-check-label" for="listenCB">Listen to the sentences</label>
       <p id="selectedRate"></p>
       <p id="selectedVoice"></p>
