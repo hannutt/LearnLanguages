@@ -12,7 +12,7 @@ The questions are of the form "how do you say good day in Finnish? etc." The use
 
 Finally, the response given by the user is compared with the response given by the Chat GPT API.
 
-Example image of the application's scoreboard, which is updated based on whether the user's answer is correct or incorrect.
+Example image of the application's scoreboard, which is updated based on whether the user's answer is correct or incorrect. Data visualization options are shown in checkboxes, which by clicking the results are displayed in charts using Google Chart.
 
 ![alt text](frontend/src/images/LLui.png)
 
