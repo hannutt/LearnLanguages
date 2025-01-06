@@ -1,6 +1,7 @@
 [
-    {"fi":"Hei","en":"Hello"},
-    {"fi":"Kiitos","en":"Thanks"},
-    {"fi":"Ole hyvä","en": "You're welcome"},
-    {"fi":"Ei kestä" ,"en":"Don't mention it"}
+    {"fi":"Hei","en":"Hello","sv":"Hejsan"},
+    {"fi":"Kiitos","en":"Thanks", "sv":"Tack"},
+    {"fi":"Ole hyvä","en": "You're welcome", "sv":"varsågod"},
+    {"fi":"Ei kestä" ,"en":"Don't mention it","sv":"det var så lite"},
+    {"fi":"Hyvää Huomenta" ,"en":"Good Morning","sv":"God Morgon"}
 ]

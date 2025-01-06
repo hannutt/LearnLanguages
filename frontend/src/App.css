@@ -178,9 +178,10 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
   accent-color: red;
 }
 .comWords {
-  color:white;
-  border: 1px solid white;
+  color:#e6e5d1;
+  border: 1px solid #26eddd;
   width: 10%;
+  font-weight: bold;
 }
 
 

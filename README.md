@@ -77,3 +77,12 @@ In connection with each phrase asked, an auxiliary image is also shown that desc
 
 When loading auxiliary images, a CSS animation is always implemented, which rotates the image 360 ​​degrees.
 This feature is made with CSS-animate and Transform methods. Reloading CSS animations is done with two identical CSS classes, which are given alternately as the class name of the div containing the img element.
+
+COMMON WORDS
+
+The application uses a JSON file in which common words and sayings are stored in Finnish, Swedish and English.
+Depending on the user's choice, word pairs are retrieved and displayed from the JSON file either in Finnish and English or in Finnish and Swedish. The purpose of this feature is to help a user who does not know Finnish or Swedish, but knows English.
+
+Example image where words in Finnish and English have been retrieved from the JSON file. The words appear inside the html border element.
+
+![alt text](frontend/src/images/comwords.png)

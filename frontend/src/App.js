@@ -140,14 +140,17 @@ function App() {
           <option selected hidden >Select language to learn</option>
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
-
         </select>
-        <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={()=>setComWords(!comWords)}>common {userSelect} words</button>
-        
+       
+        <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={()=>{setComWords(!comWords);setLearnCB(!learnCB)}}>common {userSelect} words</button>
+        <br></br>
         {/*json tiedoston olioiden läpikäynti map funktiolla ja tulostus p-tagiin*/}
         {words.map((w) => (
           <div className='comWords' hidden={comWords}>
-            <p>{w.fi} {w.en}</p>
+            {/*näytetään userselectin arvosta riippuen json-tiedostosta joko fi-en tai fi-sv arvot*/}
+            {userSelect==="Finnish" && <p>{w.fi} : {w.en}</p> }
+            {userSelect==="Swedish" && <p> {w.sv} : {w.en}</p> }
+          
           </div>
         ))}
         
