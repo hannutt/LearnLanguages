@@ -178,10 +178,27 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
   accent-color: red;
 }
 .comWords {
-  color:#e6e5d1;
+  color:black;
   border: 1px solid #26eddd;
   width: 10%;
   font-weight: bold;
 }
+.comWordBtn {
+  position: relative;
+  left: 275px;
+  top:-32px;
+}
+.hideImgSpan {
+  position: relative;
+  left: 180px;
 
+}
+.grayImage {
+  filter: grayscale(1);
+}
+.comwordsP {
+  display: flex;
+  justify-content: center;
+  
+}
 

@@ -6,6 +6,7 @@ import axios from "axios"
 import learnHeader from "./images/learnHeader.jpg"
 import words from './pages/words.json'
 import { useState, useEffect } from 'react';
+import voicecommand from './images/voice-command.png'
 
 
 
@@ -26,8 +27,10 @@ function App() {
   const [hideImage, setHideImage] = useState(true)
   var [animateDiv, setAnimateDiv] = useState("helperImage")
   const [listenTranslate, setListenTranslate] = useState(true)
-  const [comWords,setComWords]=useState(true)
- 
+  const [comWords, setComWords] = useState(true)
+  const [helperImg, setHelperImg] = useState(false)
+  var [grayImage, setGrayImage] = useState('')
+
 
 
   /*
@@ -80,7 +83,7 @@ function App() {
     setTranslate(translate = data.translatedText)
 
   }
-  
+
 
 
   const handleClick = async () => {
@@ -118,7 +121,7 @@ function App() {
 
     }
   }
- 
+
 
   //evt on select-komponentista valitun taulun nimi
   const selection = (ev, evt) => {
@@ -126,6 +129,40 @@ function App() {
     setTable(table = evt)
     setLearnCB(learnCB = false)
 
+
+  }
+  const voice=(id,langcode) =>{
+    console.log(langcode)
+    var text=document.getElementById(id).innerText
+    var arr = text.split(":")
+    var msg = new SpeechSynthesisUtterance();
+    if (langcode ==='Finnish')
+    {
+      msg.lang="fi"
+      
+
+    }
+    else if (langcode ==="Swedish")
+    {
+      msg.lang="sv-fi"
+    }
+    
+    msg.text=arr[0]
+    window.speechSynthesis.speak(msg);
+
+
+
+  }
+  var clicks = 0
+  const imgFilter = () => {
+    console.log("clicks")
+    clicks += 1
+    if (clicks % 1 === 0) {
+      setGrayImage(grayImage = "grayImage")
+    }
+    if (clicks % 2 === 0) {
+      setGrayImage(grayImage = "")
+    }
 
   }
   return (
@@ -141,21 +178,29 @@ function App() {
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
         </select>
-       
-        <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={()=>{setComWords(!comWords);setLearnCB(!learnCB)}}>common {userSelect} words</button>
-        <br></br>
+      </center>
+      <span className='comWordBtn'>
+        <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={() => { setComWords(!comWords); setLearnCB(!learnCB) }}>Show Common {userSelect} words</button>
+      </span>
+      <center>
+
         {/*json tiedoston olioiden läpikäynti map funktiolla ja tulostus p-tagiin*/}
         {words.map((w) => (
           <div className='comWords' hidden={comWords}>
             {/*näytetään userselectin arvosta riippuen json-tiedostosta joko fi-en tai fi-sv arvot*/}
-            {userSelect==="Finnish" && <p>{w.fi} : {w.en}</p> }
-            {userSelect==="Swedish" && <p> {w.sv} : {w.en}</p> }
-          
+            {userSelect === "Finnish" && <p id={w.id}>{w.fi} : {w.en} </p> }
+            {userSelect === "Swedish" && <p id={w.id}> {w.sv} : {w.en}</p>}
+            <span className='comwordsP'> 
+            <button  class="btn btn-info btn-sm" onClick={()=>voice(w.id,userSelect)}><img src={voicecommand}></img></button>
+            </span>
+
           </div>
         ))}
-        
-        
-    
+        {/*buttoni palauttaa aloitusnäkymän, eli sanalista häviää ja select, cb yms näytetäät*/}
+        <button onClick={() => { setComWords(!comWords); setLearnCB(!learnCB) }} hidden={comWords}>X</button>
+
+
+
       </center>
 
 
@@ -199,16 +244,19 @@ function App() {
         <center>
 
           <p id='question' hidden={hideImage} className='question'><b>{q.ask} </b></p>
-
+          <span className='hideImgSpan'>
+            <input class="form-check-input" type="checkbox" id="hideImageCB" onChange={() => setHelperImg(!helperImg)} />
+            <label class="form-check-label" for="hideImageCB">Hide image</label>
+            <br></br>
+            <input class="form-check-input" type="checkbox" id="roundImageCB" onClick={imgFilter} />
+            <label class="form-check-label" for="roundImageCB">Make image gray</label>
+          </span>
           <div id='helper' className={animateDiv}>
-            <img hidden={hideImage} src={q.imageurl} alt='helper' width={200} height={200}></img>
+            <img className={grayImage} hidden={helperImg} src={q.imageurl} alt='helper' width={200} height={200}></img>
           </div>
 
         </center>
       ))}
-
-
-
       <br></br>
       {/*jos starlearn on true eli checkboksia on klikattu näytetään wordinput komponentti
       samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}

@@ -83,6 +83,8 @@ COMMON WORDS
 The application uses a JSON file in which common words and sayings are stored in Finnish, Swedish and English.
 Depending on the user's choice, word pairs are retrieved and displayed from the JSON file either in Finnish and English or in Finnish and Swedish. The purpose of this feature is to help a user who does not know Finnish or Swedish, but knows English.
 
+The user can also listen to the pronunciation of the word by clicking the button below the word. This feature is implemented using the Web Speech API.
+
 Example image where words in Finnish and English have been retrieved from the JSON file. The words appear inside the html border element.
 
 ![alt text](frontend/src/images/comwords.png)
