@@ -7,6 +7,7 @@ import learnHeader from "./images/learnHeader.jpg"
 import words from './pages/words.json'
 import { useState, useEffect } from 'react';
 import voicecommand from './images/voice-command.png'
+import ImageOptions from './pages/ImageOptions.js'
 
 
 
@@ -29,10 +30,7 @@ function App() {
   const [listenTranslate, setListenTranslate] = useState(true)
   const [comWords, setComWords] = useState(true)
   const [helperImg, setHelperImg] = useState(false)
-  var [grayImage, setGrayImage] = useState('')
-
-
-
+ 
   /*
   useEffect(()=>{
     setAnimateDiv(animateDiv="helperImage")
@@ -144,7 +142,7 @@ function App() {
     }
     else if (langcode ==="Swedish")
     {
-      msg.lang="sv-fi"
+      msg.lang="sv"
     }
     
     msg.text=arr[0]
@@ -153,18 +151,7 @@ function App() {
 
 
   }
-  var clicks = 0
-  const imgFilter = () => {
-    console.log("clicks")
-    clicks += 1
-    if (clicks % 1 === 0) {
-      setGrayImage(grayImage = "grayImage")
-    }
-    if (clicks % 2 === 0) {
-      setGrayImage(grayImage = "")
-    }
 
-  }
   return (
     <div className="App">
       <img src={learnHeader} alt='Header'></img>
@@ -191,6 +178,7 @@ function App() {
             {userSelect === "Finnish" && <p id={w.id}>{w.fi} : {w.en} </p> }
             {userSelect === "Swedish" && <p id={w.id}> {w.sv} : {w.en}</p>}
             <span className='comwordsP'> 
+              {/*voice funktio saa parametrina id:n (w.id) ja valitun kielen (userselect)*/}
             <button  class="btn btn-info btn-sm" onClick={()=>voice(w.id,userSelect)}><img src={voicecommand}></img></button>
             </span>
 
@@ -198,8 +186,6 @@ function App() {
         ))}
         {/*buttoni palauttaa aloitusnäkymän, eli sanalista häviää ja select, cb yms näytetäät*/}
         <button onClick={() => { setComWords(!comWords); setLearnCB(!learnCB) }} hidden={comWords}>X</button>
-
-
 
       </center>
 
@@ -214,12 +200,8 @@ function App() {
 
       </center>
 
-
-
-
       <p id='selectedLanguage'>{selLanguage}</p>
       <p>{timeToAnswer}</p>
-
 
       <div className='options' hidden={optionsDiv}>
         <select name="language" id="language" className='language' onChange={e => setSelLanguage(e.target.value)}>
@@ -242,19 +224,7 @@ function App() {
       {question.map(q => (
 
         <center>
-
-          <p id='question' hidden={hideImage} className='question'><b>{q.ask} </b></p>
-          <span className='hideImgSpan'>
-            <input class="form-check-input" type="checkbox" id="hideImageCB" onChange={() => setHelperImg(!helperImg)} />
-            <label class="form-check-label" for="hideImageCB">Hide image</label>
-            <br></br>
-            <input class="form-check-input" type="checkbox" id="roundImageCB" onClick={imgFilter} />
-            <label class="form-check-label" for="roundImageCB">Make image gray</label>
-          </span>
-          <div id='helper' className={animateDiv}>
-            <img className={grayImage} hidden={helperImg} src={q.imageurl} alt='helper' width={200} height={200}></img>
-          </div>
-
+          <ImageOptions setHelperImg={setHelperImg} helperImg={helperImg} hideImage={hideImage} q={q} setAnimateDiv={setAnimateDiv} animateDiv={animateDiv} />
         </center>
       ))}
       <br></br>

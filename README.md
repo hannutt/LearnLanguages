@@ -78,6 +78,10 @@ In connection with each phrase asked, an auxiliary image is also shown that desc
 When loading auxiliary images, a CSS animation is always implemented, which rotates the image 360 ​​degrees.
 This feature is made with CSS-animate and Transform methods. Reloading CSS animations is done with two identical CSS classes, which are given alternately as the class name of the div containing the img element.
 
+ADJUSTMENT OF AUXILIARY IMAGES
+
+The user can adjust the brightness of the helper images using the html slider element. The default brightness is 100% and can be adjusted between 1-200%. The brightness value is stored in the State variable and the variable is sent to the style property of the auxiliary img element. This feature uses CSS Brightness function.
+
 COMMON WORDS
 
 The application uses a JSON file in which common words and sayings are stored in Finnish, Swedish and English.
