@@ -80,7 +80,7 @@ This feature is made with CSS-animate and Transform methods. Reloading CSS anima
 
 ADJUSTMENT OF AUXILIARY IMAGES
 
-The user can adjust the brightness of the helper images using the html slider element. The default brightness is 100% and can be adjusted between 1-200%. The brightness value is stored in the State variable and the variable is sent to the style property of the auxiliary img element. This feature uses CSS Brightness function.
+The user can adjust the brightness and contrast of the auxiliary images with the html slider. The default brightness and contrast is 100% and can be adjusted between 1-200%. The brightness/contrast values are stored in the State variable and the variable is sent to the style property of the auxiliary img element. These properties use the CSS brightness and CSS contrast functions.
 
 COMMON WORDS
 

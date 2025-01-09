@@ -4,6 +4,7 @@ import TextToSpeech from "./TextToSpeech";
 import { Chart } from "react-google-charts";
 import microphone16px from "../images/microphone16px.png"
 import ListenSentences from '../pages/ListenSentences';
+import Scores from '../pages/Scores.js';
 
 function WordInput(props) {
   const [userInput, setUserInput] = useState("")
@@ -18,6 +19,7 @@ function WordInput(props) {
   var [countClicks, setCountClicks] = useState(1)
   const [listenCB, setListenCB] = useState(false)
   const [flexCont, setFlexCont] = useState(false)
+  var [userName,setUserName]=useState('')
 
 
   //mikrofonin kautta saadun äänen muunto tekstiksi.
@@ -43,10 +45,22 @@ function WordInput(props) {
 
 
   const saveId = () => {
+    localStorage.setItem("table",props.table)
     localStorage.setItem("id", props.questionId)
+
+  }
+  //funktio hakee localstorageen talletetun kysymysid:n ja taulun nimen
+  const continueFromSaved=async ()=> {
+    var table=localStorage.getItem("table")
+    var id = localStorage.getItem("id")
+    const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${id}`)
+    props.setQuestion(res.data)
+
   }
 
-  //ev parametri sisältää checkboxin value propertyn
+ 
+
+  //ev parametri sisältää checkboxin value propertyn ctype on charttype eli kaavion tyyppi
   const dataVisualization = (ev) => {
     setVisualization(!visualization)
     setCtype(cType = ev)
@@ -69,9 +83,14 @@ function WordInput(props) {
 
   }
 
+  const saveScores= ()=>{
+    var name=prompt("Enter your name")
+    setUserName(userName=name)
+    const res = axios.post(`http://localhost:8800/savescores`,{userName,correctAns})    
+  }
   
   const handleClick = async () => {    
-    console.log(props.table)
+    
     
     var apk = localStorage.getItem("apk")
     document.getElementById("translatedQuestion").hidden = true
@@ -124,15 +143,7 @@ function WordInput(props) {
         props.getFeedback(feedback)
         //jos vastaus on oikea, niin nollataan askhint funktion kierrosmuuttuja
         setIhint(iHint = 0)
-        /*
-        if (updatedId>=4 && failedQuestions.length>0)
-          {
-            
-            const res = await axios.get("http://localhost:8800/question/" +1)
-            console.log(res.data)
-            props.setQuestion(res.data)
-  
-          }*/
+    
 
         //css-animaation toteutus aina uuden kuvan yhteydessä. tässä tapauksessa
         //animaatio toteutetaan vaihtamalla css-luokan nimeä helperImage-helperImageRestart välillä
@@ -185,8 +196,24 @@ function WordInput(props) {
         </div>
       </div>
       <span className="saveBtn">
-        <button id="save" class="btn btn-info btn-sm" onClick={saveId}>Save & continue later</button>
-      </span>
+        <button id="save" class="btn btn-info btn-sm" onClick={saveId}>Save</button>
+        </span>
+        
+        <span className="continueBtn">
+        <button class="btn btn-primary btn-sm" onClick={continueFromSaved}>Continue from saved question</button>
+        </span>
+        <span className="saveScores">
+          
+          <button class="btn btn-info btn-sm" onClick={saveScores}>Save scores</button>
+          <br></br>
+          <Scores/>
+          
+        </span>
+      
+       
+       
+        
+      
       {/*lähetetään texttospeech komponentille flexcont state muuttuja*/}
       <TextToSpeech flexCont={flexCont} />
       <div className="answers">

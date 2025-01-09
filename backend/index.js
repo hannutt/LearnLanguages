@@ -77,6 +77,44 @@ app.get("/tablename",(req,res)=>{
    
 })
 
+app.get("/continue",(req,res)=>{
+    //queryparamit talletetaan muuttujiin, query jälkeinen nimi on sama, mikä se on app.js:ssä queryparamina
+    //annettu query kertoo että käsitellään queryparameja
+    const table =req.query.tableName
+    const id = req.query.idNum
+   // const id=req.body.questionId
+  
+    const query=`SELECT * FROM ${table} WHERE id=${id}`
+    db.query(query,(err,data)=>{
+        if (err) return res.json(err)
+            return res.json(data)
+
+    })
+   
+})
+
+app.get("/showscores",(req,res)=>{
+    const query="SELECT * FROM scores"
+    db.query(query,(err,data)=>{
+        if (err) return res.json(err)
+            return res.json(data)
+
+    })
+})
+app.post("/savescores",(req,res)=>{
+    //req.body.username & correctans ovat wordinputissa endpointissa hakasuluissa annetut state-muuttujat
+    const nameVal=req.body.userName
+    const pointsVal=req.body.correctAns
+    
+    const query="INSERT INTO scores (`name`,`points`) VALUES (?,?)"
+    const values=[nameVal,pointsVal]
+    db.query(query,values,(err,data)=>{
+        if (err) return res.json(err)
+            return res.json(data)
+
+    })
+})
+
 app.listen(8800,()=>{
     console.log("server running")
 

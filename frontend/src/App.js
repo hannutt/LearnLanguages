@@ -82,10 +82,11 @@ function App() {
 
   }
 
+ 
 
 
   const handleClick = async () => {
-    var savedId = localStorage.getItem("id")
+    //var savedId = localStorage.getItem("id")
     //jos aikarajoitus on valittu
     if (limited) {
       setInterval(() => {
@@ -95,6 +96,8 @@ function App() {
 
     }
 
+   
+
 
     setTranslatedQuestion(translatedQuestion = true)
     setOptionsDiv(!optionsDiv)
@@ -103,22 +106,14 @@ function App() {
     //const res = await axios.get("http://localhost:8800/question/" + questionId)
 
 
-    //savedid talletetaan localstorageen, jos käyttäjä on klikannut save & continue later painiketta
-    //tässä tehdään tarkastus, jos saveid ei ole tyhjä annetaan tallennettu id parametrina
-    if (savedId !== null) {
-      const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${savedId}`)
-      setQuestion(res.data)
-
-
-    }
-    else {
+    
       {/*lähetetään tietokantataulu ja id queryparam parametreina node.js:lle ? tarkoittaa että queryparamit
     alkaa ja & tarkoittaa seuraavaa queryparamia*/}
       const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${questionId}`)
       setQuestion(res.data)
 
     }
-  }
+  
 
 
   //evt on select-komponentista valitun taulun nimi
@@ -130,7 +125,7 @@ function App() {
 
   }
   const voice=(id,langcode) =>{
-    console.log(langcode)
+   
     var text=document.getElementById(id).innerText
     var arr = text.split(":")
     var msg = new SpeechSynthesisUtterance();
@@ -165,10 +160,12 @@ function App() {
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
         </select>
+        
       </center>
       <span className='comWordBtn'>
         <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={() => { setComWords(!comWords); setLearnCB(!learnCB) }}>Show Common {userSelect} words</button>
       </span>
+      
       <center>
 
         {/*json tiedoston olioiden läpikäynti map funktiolla ja tulostus p-tagiin*/}
