@@ -82,6 +82,9 @@ ADJUSTMENT OF AUXILIARY IMAGES
 
 The user can adjust the brightness and contrast of the auxiliary images with the html slider. The default brightness and contrast is 100% and can be adjusted between 1-200%. The brightness/contrast values are stored in the State variable and the variable is sent to the style property of the auxiliary img element. These properties use the CSS brightness and CSS contrast functions.
 
+The default size of auxiliary images is 200 x 200 pixels. The user can zoom in or out auxiliary image by using clicking the buttons. each click resizes the guide image by 5 pixels in height and width. Image size values ​​are stored in state variables, and increment/decrement functions change these variable values.
+You can also reset the auxiliary image to its default size at any time by clicking the reset button.
+
 COMMON WORDS
 
 The application uses a JSON file in which common words and sayings are stored in Finnish, Swedish and English.

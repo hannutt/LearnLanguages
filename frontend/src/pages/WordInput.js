@@ -200,15 +200,15 @@ function WordInput(props) {
         </span>
         
         <span className="continueBtn">
-        <button class="btn btn-primary btn-sm" onClick={continueFromSaved}>Continue from saved question</button>
+        <button class="btn btn-primary btn-sm" onClick={continueFromSaved}>Continue from save</button>
         </span>
         <span className="saveScores">
           
-          <button class="btn btn-info btn-sm" onClick={saveScores}>Save scores</button>
-          <br></br>
-          <Scores/>
-          
+          <button class="btn btn-info btn-sm" onClick={saveScores}>Save scores</button> 
         </span>
+        <span className="scoreSpan">
+          <Scores/>
+          </span>
       
        
        

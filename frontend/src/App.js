@@ -30,7 +30,8 @@ function App() {
   const [listenTranslate, setListenTranslate] = useState(true)
   const [comWords, setComWords] = useState(true)
   const [helperImg, setHelperImg] = useState(false)
- 
+  const [translateOptions, setTranslateOptions] = useState(true)
+
   /*
   useEffect(()=>{
     setAnimateDiv(animateDiv="helperImage")
@@ -82,7 +83,7 @@ function App() {
 
   }
 
- 
+
 
 
   const handleClick = async () => {
@@ -96,7 +97,7 @@ function App() {
 
     }
 
-   
+
 
 
     setTranslatedQuestion(translatedQuestion = true)
@@ -106,14 +107,14 @@ function App() {
     //const res = await axios.get("http://localhost:8800/question/" + questionId)
 
 
-    
-      {/*lähetetään tietokantataulu ja id queryparam parametreina node.js:lle ? tarkoittaa että queryparamit
-    alkaa ja & tarkoittaa seuraavaa queryparamia*/}
-      const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${questionId}`)
-      setQuestion(res.data)
 
-    }
-  
+    {/*lähetetään tietokantataulu ja id queryparam parametreina node.js:lle ? tarkoittaa että queryparamit
+    alkaa ja & tarkoittaa seuraavaa queryparamia*/}
+    const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${questionId}`)
+    setQuestion(res.data)
+
+  }
+
 
 
   //evt on select-komponentista valitun taulun nimi
@@ -124,23 +125,21 @@ function App() {
 
 
   }
-  const voice=(id,langcode) =>{
-   
-    var text=document.getElementById(id).innerText
+  const voice = (id, langcode) => {
+
+    var text = document.getElementById(id).innerText
     var arr = text.split(":")
     var msg = new SpeechSynthesisUtterance();
-    if (langcode ==='Finnish')
-    {
-      msg.lang="fi"
-      
+    if (langcode === 'Finnish') {
+      msg.lang = "fi"
+
 
     }
-    else if (langcode ==="Swedish")
-    {
-      msg.lang="sv"
+    else if (langcode === "Swedish") {
+      msg.lang = "sv"
     }
-    
-    msg.text=arr[0]
+
+    msg.text = arr[0]
     window.speechSynthesis.speak(msg);
 
 
@@ -160,23 +159,23 @@ function App() {
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
         </select>
-        
+
       </center>
       <span className='comWordBtn'>
         <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={() => { setComWords(!comWords); setLearnCB(!learnCB) }}>Show Common {userSelect} words</button>
       </span>
-      
+
       <center>
 
         {/*json tiedoston olioiden läpikäynti map funktiolla ja tulostus p-tagiin*/}
         {words.map((w) => (
           <div className='comWords' hidden={comWords}>
             {/*näytetään userselectin arvosta riippuen json-tiedostosta joko fi-en tai fi-sv arvot*/}
-            {userSelect === "Finnish" && <p id={w.id}>{w.fi} : {w.en} </p> }
+            {userSelect === "Finnish" && <p id={w.id}>{w.fi} : {w.en} </p>}
             {userSelect === "Swedish" && <p id={w.id}> {w.sv} : {w.en}</p>}
-            <span className='comwordsP'> 
+            <span className='comwordsP'>
               {/*voice funktio saa parametrina id:n (w.id) ja valitun kielen (userselect)*/}
-            <button  class="btn btn-info btn-sm" onClick={()=>voice(w.id,userSelect)}><img src={voicecommand}></img></button>
+              <button class="btn btn-info btn-sm" onClick={() => voice(w.id, userSelect)}><img src={voicecommand}></img></button>
             </span>
 
           </div>
@@ -200,7 +199,16 @@ function App() {
       <p id='selectedLanguage'>{selLanguage}</p>
       <p>{timeToAnswer}</p>
 
-      <div className='options' hidden={optionsDiv}>
+      <div hidden={learnCB}>
+        <input class="form-check-input" type="checkbox" value="" id="translateOpt" onChange={() => setTranslateOptions(!translateOptions)} />
+        <label class="form-check-label" for="translateOpt">
+          Show translate options
+        </label>
+        <br></br>
+      </div>
+
+
+      <div className='options' hidden={translateOptions}>
         <select name="language" id="language" className='language' onChange={e => setSelLanguage(e.target.value)}>
           <option selected >Select language </option>
           <option value="es">Spanish</option>
