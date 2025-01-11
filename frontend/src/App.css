@@ -235,4 +235,6 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
 .imgCB label span {
   vertical-align: middle;
 }
-
+.repeat {
+  margin-left: 5px;
+}

@@ -3,6 +3,7 @@ function SpeechOptions() {
 
     var [voices, setVoices] = useState([])
 
+
     //evt parametri on select valikosta valitun äänen value arvo
     const selectedVoice = (evt) => {
         console.log(evt)
@@ -16,22 +17,36 @@ function SpeechOptions() {
     }
     return (
         <div className="mainDiv">
-           <span><b>Select voice</b></span>
+            <span><b>Select voice</b></span>
             <select onClick={voiceOptions} onChange={e => selectedVoice(e.target.value)}>
                 {/*index on listan indeksinumero, se alkaa luvusta 0 */}
-                {voices.map((v,index)=> (
+                {voices.map((v, index) => (
+
                     <option value={index}>{v.name}</option>
                 ))}
             </select>
-            
+
         </div>
     )
 }
 
 function SpcRate() {
+    var rateval=[]
+   
+    const loop = () => {
+        for (var i = 0; i < 1; i += 0.1) {
+            rateval.push(i)
+           
+            
+        }
+    }
+    loop()
 
+   
     const rateValue = (evt) => {
+        
         console.log(evt)
+
         document.getElementById("selectedRate").innerText = evt
 
 
@@ -41,16 +56,11 @@ function SpcRate() {
             <span><b>Select speech rate</b></span>
             <select onChange={e => rateValue(e.target.value)}>
                 <option selected>Select</option>
-                <option value={0.1}>0.1</option>
-                <option value={0.2}>0.2</option>
-                <option value={0.3}>0.3</option>
-                <option value={0.4}>0.4</option>
-                <option value={0.5}>0.5</option>
-                <option value={0.6}>0.6</option>
-                <option value={0.7}>0.7</option>
-                <option value={0.8}>0.8</option>
-                <option value={0.9}>0.9</option>
-                <option value={1}>1</option>
+               {rateval.map(i =>(
+                <option>{i}</option>
+               
+      ))}
+            
             </select>
 
         </div>
@@ -74,7 +84,7 @@ function VolumeSlider() {
 }
 function SetPitch() {
 
-    const getSelected=(evt)=>{
+    const getSelected = (evt) => {
         console.log(evt)
 
     }
@@ -82,7 +92,7 @@ function SetPitch() {
         <div>
             <span><b>Set pitch</b></span>
 
-            <select onChange={e=>getSelected(e.target.value)}>
+            <select onChange={e => getSelected(e.target.value)}>
                 <option selected>Select</option>
                 <option value={0}>0</option>
                 <option value={1}>1</option>

@@ -32,11 +32,25 @@ function App() {
   const [helperImg, setHelperImg] = useState(false)
   const [translateOptions, setTranslateOptions] = useState(true)
 
-  /*
-  useEffect(()=>{
-    setAnimateDiv(animateDiv="helperImage")
-  },[animateDiv])
-  */
+  const askName = () => {
+
+    //ehdoksi tarvitaan allaoleva, että ehdon mukainen toiminta toteutuu
+    if (localStorage.getItem("player") == null) {
+      console.log("item null")
+      var name = prompt("Enter your name")
+      //localStorage.setItem("player",name)
+
+    }
+    else {
+      return
+    }
+
+  }
+  useEffect(() => {
+    askName()
+
+  }, [])
+
 
   //data parametrin arvo saadaan wordinput komponentista, parametri sisältää wordinput komponentissa
   //määritetyn feedback state-muuttujan.
@@ -60,6 +74,7 @@ function App() {
     utterance.lang = selLanguage
     speechSynthesis.speak(utterance);
   }
+
 
   //libretranslaten käyttö kääntämiseen
   const translateText = async () => {
@@ -155,7 +170,7 @@ function App() {
       <center>
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
         <select class="form-select form-select-sm w-25" onChange={e => selection(e.target.options[e.target.selectedIndex].text, e.target.value)} aria-label=".form-select-sm example">
-          <option selected hidden >Select language to learn</option>
+          <option selected >Select language to learn</option>
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
         </select>
@@ -187,7 +202,7 @@ function App() {
 
 
       <center>
-        <input class="form-check-input" hidden={learnCB} type="checkbox" value="" id="startLearnCB" onChange={handleClick} />
+        <input class="form-check-input" hidden={learnCB} type="checkbox" id="startLearnCB" onChange={handleClick} />
         <label class="form-check-label" hidden={learnCB} for="startLearnCB">Start learning {userSelect}</label>
         <br></br>
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="timeLimitCB" onChange={() => setLimited(!limited)} />
@@ -229,7 +244,7 @@ function App() {
       {question.map(q => (
 
         <center>
-          <ImageOptions setHelperImg={setHelperImg} helperImg={helperImg} hideImage={hideImage} q={q} setAnimateDiv={setAnimateDiv} animateDiv={animateDiv} />
+          <ImageOptions setHelperImg={setHelperImg} helperImg={helperImg} setHideImage={setHideImage} hideImage={hideImage} q={q} setAnimateDiv={setAnimateDiv} animateDiv={animateDiv} learnCB={learnCB} />
         </center>
       ))}
       <br></br>

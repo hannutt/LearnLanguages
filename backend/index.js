@@ -107,6 +107,7 @@ app.post("/savescores",(req,res)=>{
     const pointsVal=req.body.correctAns
     
     const query="INSERT INTO scores (`name`,`points`) VALUES (?,?)"
+    const querycheck="INSERT INTO scores (id,name, points) VALUES (1, 'Hannu', 2) ON DUPLICATE KEY UPDATE points=VALUES(points);"
     const values=[nameVal,pointsVal]
     db.query(query,values,(err,data)=>{
         if (err) return res.json(err)
