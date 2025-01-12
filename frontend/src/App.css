@@ -139,6 +139,9 @@
   display: flex;
   justify-content: center;
  
+
+  
+ 
 }
 .options {
   display: flex;
@@ -147,6 +150,7 @@
 /*tyhjää tilaa painikkeiden väliin*/
 .speechBtns1,.speechBtns2,.inputBtnDiv,.microphone {
   margin-right: 10px;
+  align-items: start;
 }
 .feedback {
   font-weight: bold;
@@ -210,6 +214,7 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
 .hideImgSpan {
   position: relative;
   left: 180px;
+  top:-180px;
 
 }
 .grayImage {
@@ -237,4 +242,9 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
 }
 .repeat {
   margin-left: 5px;
+}
+.imgButtons{
+  border: 2px solid black;
+  padding: 10px;
+
 }

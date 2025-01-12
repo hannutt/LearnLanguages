@@ -2,6 +2,7 @@
 import './App.css';
 import './index.css';
 import WordInput from "./pages/WordInput"
+import DragnDrop from "./pages/DragnDrop.js"
 import axios from "axios"
 import learnHeader from "./images/learnHeader.jpg"
 import words from './pages/words.json'
@@ -23,7 +24,7 @@ function App() {
   var [selLanguage, setSelLanguage] = useState("")
   const [optionsDiv, setOptionsDiv] = useState(true)
   var [translatedQuestion, setTranslatedQuestion] = useState(true)
-  var [timeToAnswer, setTimeToAnswer] = useState(60)
+  var [timeToAnswer, setTimeToAnswer] = useState(20)
   const [limited, setLimited] = useState(false)
   const [hideImage, setHideImage] = useState(true)
   var [animateDiv, setAnimateDiv] = useState("helperImage")
@@ -31,28 +32,28 @@ function App() {
   const [comWords, setComWords] = useState(true)
   const [helperImg, setHelperImg] = useState(false)
   const [translateOptions, setTranslateOptions] = useState(true)
-  var [countryCode,setCountryCode]=useState("")
+  var [countryCode, setCountryCode] = useState("")
 
- const getGeoLocation=()=>{
-  var geoapk=localStorage.getItem("geoapk")
-  fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${geoapk}`)
-  .then(response => response.json())
-  //haetaan vain maa ja maan iso-koodi tulosjoukosta ja talletetaan se statemuuttujaan
-  .then(result => setCountryCode(countryCode=result.country.iso_code))
-  .catch(error => console.log('error', error));
- 
-
- }
+  const getGeoLocation = () => {
+    var geoapk = localStorage.getItem("geoapk")
+    fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${geoapk}`)
+      .then(response => response.json())
+      //haetaan vain maa ja maan iso-koodi tulosjoukosta ja talletetaan se statemuuttujaan
+      .then(result => setCountryCode(countryCode = result.country.iso_code))
+      .catch(error => console.log('error', error));
 
 
- //getGeoLocation()
+  }
+
+
+  //getGeoLocation()
 
   const askName = () => {
 
     //tarkistetaan onko loclastoragessa player key
     if (localStorage.getItem("player") === null) {
       var name = prompt("Enter your name")
-      localStorage.setItem("player",name)
+      localStorage.setItem("player", name)
 
     }
     else {
@@ -61,7 +62,7 @@ function App() {
 
   }
   //askName()
-  
+
   useEffect(() => {
     askName()
 
@@ -114,23 +115,23 @@ function App() {
 
   }
 
+const timelimit=()=>{
+  const interval=setInterval(() => {
+    setTimeToAnswer(timeToAnswer -= 1)
+    if (timeToAnswer==0)
+      {
+        //lopetetaan intervalin suoritus
+        clearInterval(interval)
+      }
 
+  }, 1000);
+
+
+}
 
 
   const handleClick = async () => {
-    //var savedId = localStorage.getItem("id")
-    //jos aikarajoitus on valittu
-    if (limited) {
-      setInterval(() => {
-        setTimeToAnswer(timeToAnswer -= 1)
-
-      }, 1000);
-
-    }
-
-
-
-
+   
     setTranslatedQuestion(translatedQuestion = true)
     setOptionsDiv(!optionsDiv)
     setStartLearn(!startLearn)
@@ -176,7 +177,7 @@ function App() {
 
 
   }
-  const runcmd=()=>{
+  const runcmd = () => {
     const res = axios.get("http://localhost:8800/shell")
   }
 
@@ -194,7 +195,7 @@ function App() {
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
         </select>
-        <button onClick={runcmd}>run cmd</button>
+
 
       </center>
       <span className='comWordBtn'>
@@ -226,7 +227,7 @@ function App() {
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="startLearnCB" onChange={handleClick} />
         <label class="form-check-label" hidden={learnCB} for="startLearnCB">Start learning {userSelect}</label>
         <br></br>
-        <input class="form-check-input" hidden={learnCB} type="checkbox" id="timeLimitCB" onChange={() => setLimited(!limited)} />
+        <input class="form-check-input" hidden={learnCB} type="checkbox" id="timeLimitCB" onChange={timelimit} />
         <label class="form-check-label" hidden={learnCB} for="timeLimitCB">Time Limited?</label>
         <br></br>
 
@@ -241,6 +242,7 @@ function App() {
           Show translate options
         </label>
         <br></br>
+
       </div>
 
 
@@ -255,6 +257,8 @@ function App() {
           <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
           <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button>
         </span>
+        <br></br>
+        <button class="btn btn-info btn-sm" onClick={runcmd}>Start libretranslate</button>
       </div>
       <center>
         <br></br>
@@ -271,8 +275,8 @@ function App() {
       <br></br>
       {/*jos starlearn on true eli checkboksia on klikattu näytetään wordinput komponentti
       samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}
-      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} hideImage={hideImage} setHideImage={setHideImage} setOptionsDiv={setOptionsDiv} optionsDiv={optionsDiv} />}
-
+      {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} hideImage={hideImage} setHideImage={setHideImage} setOptionsDiv={setOptionsDiv} optionsDiv={optionsDiv} timeToAnswer={timeToAnswer} setTimeToAnswer={setTimeToAnswer} timelimit={timelimit} />}
+        <DragnDrop/>
     </div>
   );
 }

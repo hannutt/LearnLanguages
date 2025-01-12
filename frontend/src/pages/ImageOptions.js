@@ -65,14 +65,17 @@ function ImageOptions(props) {
                 <input class="form-check-input" type="checkbox" id="adjustImageCB" onChange={()=>{setAdjustConst(!adjustConst);setDisableRange(!disableRange)}} />
                 <label class="form-check-label" for="adjustImageCB">Adjust contrast</label>
                 </div>
-            </span>
+            
             <div  hidden={props.hideImage}>
               
                 <input type="range" disabled={disableRange} defaultValue="100" min="1" max="200" step={1} class="slider" id="rng" onInput={sliderMove} />
                 <p id='sliderVal'></p>
                 <br></br>
+                <span className='imgButtons'>
                 <button class="btn btn-primary btn-sm" onClick={decreaseImage}>-</button> <button class="btn btn-info btn-sm" onClick={increaseImage}>+</button><button style={{marginLeft:'5px'}}  class="btn btn-warning" onClick={()=>{setImgHeight(imgHeight=200);setImgWidth(imgWidth=200)}}>R</button>
+                </span>
             </div>
+            </span>
         </div>
     )
 }

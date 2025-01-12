@@ -122,7 +122,7 @@ app.listen(8800,()=>{
 })
 //exec suorittaa cmd-komennon, eli tässä tapauksessa käynnistää libretranslate apin.
 app.get("/shell",()=>{
-    exec("libretranslate", (err, outs, errs) => { 
-        console.log(outs); 
+    exec("libretranslate", () => { 
+        
     }); 
 })

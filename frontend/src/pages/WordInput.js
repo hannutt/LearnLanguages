@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import axios from "axios"
 import TextToSpeech from "./TextToSpeech";
 import { Chart } from "react-google-charts";
@@ -20,6 +20,17 @@ function WordInput(props) {
   const [listenCB, setListenCB] = useState(false)
   const [flexCont, setFlexCont] = useState(false)
   var [userName,setUserName]=useState('')
+
+  //useeffectillä voidaan tarkkailla app.js:llä timetoanswer muuttujan vähennystä.
+  //tarkkailu tapahtuu wordinput komponentissa.
+    useEffect(() => {
+      if(props.timeToAnswer===0)
+      {
+        setFeedback(feedback="TIME")
+        props.getFeedback(feedback)
+      }
+  
+    }, [props.timeToAnswer])
 
 
   //mikrofonin kautta saadun äänen muunto tekstiksi.
@@ -119,6 +130,8 @@ function WordInput(props) {
       if (userInput === answerLower || answerLower.includes(userInput)) {
         //asynkrooninen staten päivitys, eli näin staten arvo saadaan päivittymään
         const updatedId = props.questionId + 1
+        const updatedTime=props.timeToAnswer+20
+        props.setTimeToAnswer(updatedTime)
         props.setQuestionId(updatedId)
         console.log(updatedId)
 
