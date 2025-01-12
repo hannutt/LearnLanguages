@@ -84,8 +84,9 @@ function WordInput(props) {
   }
 
   const saveScores= ()=>{
-    var name=prompt("Enter your name")
+    var name=localStorage.getItem("player")
     setUserName(userName=name)
+    console.log(userName)
     const res = axios.post(`http://localhost:8800/savescores`,{userName,correctAns})    
   }
   
@@ -179,6 +180,7 @@ function WordInput(props) {
       <p id="selectedRate"></p>
       <p id="selectedVoice"></p>
       <p id="selectedVolume"></p>
+      <p id="selectedPitch"></p>
       {/*päivitetään correctAns/wrongsAns statea listensentences komponentissa antamalla ne parametrina listensentences komponentille*/}
       {listenCB && <ListenSentences setCorrectAns={setCorrectAns} correctAns={correctAns} setWrongAns={setWrongAns} wrongAns={wrongAns} />}
 

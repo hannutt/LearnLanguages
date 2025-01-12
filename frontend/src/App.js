@@ -31,21 +31,37 @@ function App() {
   const [comWords, setComWords] = useState(true)
   const [helperImg, setHelperImg] = useState(false)
   const [translateOptions, setTranslateOptions] = useState(true)
+  var [countryCode,setCountryCode]=useState("")
+
+ const getGeoLocation=()=>{
+  var geoapk=localStorage.getItem("geoapk")
+  fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${geoapk}`)
+  .then(response => response.json())
+  //haetaan vain maa ja maan iso-koodi tulosjoukosta ja talletetaan se statemuuttujaan
+  .then(result => setCountryCode(countryCode=result.country.iso_code))
+  .catch(error => console.log('error', error));
+ 
+
+ }
+
+
+ //getGeoLocation()
 
   const askName = () => {
 
-    //ehdoksi tarvitaan allaoleva, että ehdon mukainen toiminta toteutuu
-    if (localStorage.getItem("player") == null) {
-      console.log("item null")
+    //tarkistetaan onko loclastoragessa player key
+    if (localStorage.getItem("player") === null) {
       var name = prompt("Enter your name")
-      //localStorage.setItem("player",name)
+      localStorage.setItem("player",name)
 
     }
     else {
-      return
+      console.log("player ok")
     }
 
   }
+  //askName()
+  
   useEffect(() => {
     askName()
 
@@ -160,12 +176,16 @@ function App() {
 
 
   }
+  const runcmd=()=>{
+    const res = axios.get("http://localhost:8800/shell")
+  }
 
   return (
     <div className="App">
       <img src={learnHeader} alt='Header'></img>
       <br></br>
       <h2 className='lngHeader'>Languages</h2>
+      <p>{countryCode.toLowerCase()}</p>
 
       <center>
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
@@ -174,6 +194,7 @@ function App() {
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
         </select>
+        <button onClick={runcmd}>run cmd</button>
 
       </center>
       <span className='comWordBtn'>

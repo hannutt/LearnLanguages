@@ -29,7 +29,9 @@ TRANSLATION OF THE QUESTION INTO THE DESIRED LANGUAGE
 
 The questions are presented in English by default. However, the user can translate the questions by choosing the language they want from the available options. Once the language is selected, an English question is sent to the LibreTranslate API using JavaScript's fetch method. as a response, the API returns the translated question and it is displayed in the HTML frontend. The program can also converts the translated question from text to speech using the Speech Synthesis API.
 
-Example image where the user has translated the given question from English to German using the LibreTranslate API
+In this project, the LibreTranslate API runs locally and needs to be started using the command prompt. A button has been created in the program, which, when clicked, calls a Node.js method that starts LibreTranslate with the exec function. So the user does not have to use the command prompt separately, but the exec function of the Node.js method handles the startup.
+
+Example image where the user has translated the given question from English to German using the LibreTranslate API. 
 
 ![alt text](frontend/src/images/LLapp.png)
 

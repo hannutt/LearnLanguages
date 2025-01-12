@@ -40,14 +40,16 @@ function TextToSpeech(props) {
     const speech = () => {
         var voiceList = speechSynthesis.getVoices()
         var speechRate = document.getElementById("selectedRate").innerText
+        var selectedPitch=document.getElementById("selectedPitch").innerText
        
         var selectedVolume = document.getElementById("selectedVolume").innerText
         //jos rate ja volume arvoja ei ole muutettu, täytyy if-lause olla
         //tässä kohtaa, että puhe toimii.
-        if (selectedVolume==='' && speechRate==='')
+        if (selectedVolume==='' && speechRate===''&&selectedPitch==='')
         {
             selectedVolume=1.0
             speechRate=1.0
+            selectedPitch=1.0
         }
         else if (selectedVolume==='')
         {
@@ -57,14 +59,20 @@ function TextToSpeech(props) {
         {
             speechRate=1.0
         }
+        else if (selectedPitch==='')
+            {
+                selectedPitch=1.0
+            }
         var speechRateInt = parseInt(speechRate)
         var volumeFloat = parseFloat(selectedVolume)
         var speakVoice=document.getElementById("selectedVoice").innerText
         var speakNumber = parseInt(speakVoice)
+        var speakPitchInt=parseInt(selectedPitch)
         var msg = new SpeechSynthesisUtterance();
         
      
         msg.volume=volumeFloat
+        msg.pitch=speakPitchInt
         //asetetaan ääneksi käyttäjän valitsema ääni, äänet ovat listassa ja valinta tapahtuu
         //numeron (speaknumber) perusteella.
         msg.voice=voiceList[speakNumber]

@@ -31,20 +31,20 @@ function SpeechOptions() {
 }
 
 function SpcRate() {
-    var rateval=[]
-   
+    var rateval = []
+
     const loop = () => {
-        for (var i = 0; i < 1; i += 0.1) {
-            rateval.push(i)
-           
-            
+        //kasvatetaan i-muuttujaa arvolla 0.1 eli listaan tulee arvot väliltä 0.1-1
+        for (var i = 0.1; i < 1; i += 0.1) {
+            //math roundin avulla vältetään ylimääräiset desimaalit tuloksessa.
+            rateval.push(Math.round(i*100)/100)
         }
     }
     loop()
 
-   
+
     const rateValue = (evt) => {
-        
+
         console.log(evt)
 
         document.getElementById("selectedRate").innerText = evt
@@ -56,11 +56,11 @@ function SpcRate() {
             <span><b>Select speech rate</b></span>
             <select onChange={e => rateValue(e.target.value)}>
                 <option selected>Select</option>
-               {rateval.map(i =>(
-                <option>{i}</option>
-               
-      ))}
-            
+                {rateval.map(i => (
+                    <option>{i}</option>
+
+                ))}
+
             </select>
 
         </div>
@@ -85,7 +85,7 @@ function VolumeSlider() {
 function SetPitch() {
 
     const getSelected = (evt) => {
-        console.log(evt)
+       document.getElementById("selectedPitch").innerText=evt
 
     }
     return (

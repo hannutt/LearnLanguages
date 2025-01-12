@@ -2,7 +2,7 @@ import express, { request } from 'express'
 import mysql from "mysql2"
 import cors from "cors"
 
-
+import {exec} from 'child_process'
 const app = express()
 
 const db = mysql.createConnection({
@@ -107,7 +107,7 @@ app.post("/savescores",(req,res)=>{
     const pointsVal=req.body.correctAns
     
     const query="INSERT INTO scores (`name`,`points`) VALUES (?,?)"
-    const querycheck="INSERT INTO scores (id,name, points) VALUES (1, 'Hannu', 2) ON DUPLICATE KEY UPDATE points=VALUES(points);"
+    //const querycheck="INSERT INTO scores (id,name, points) VALUES (1, 'Hannu', 2) ON DUPLICATE KEY UPDATE points=VALUES(points);"
     const values=[nameVal,pointsVal]
     db.query(query,values,(err,data)=>{
         if (err) return res.json(err)
@@ -119,4 +119,10 @@ app.post("/savescores",(req,res)=>{
 app.listen(8800,()=>{
     console.log("server running")
 
+})
+//exec suorittaa cmd-komennon, eli tässä tapauksessa käynnistää libretranslate apin.
+app.get("/shell",()=>{
+    exec("libretranslate", (err, outs, errs) => { 
+        console.log(outs); 
+    }); 
 })
