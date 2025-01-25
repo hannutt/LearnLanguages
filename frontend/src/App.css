@@ -248,3 +248,19 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
   padding: 10px;
 
 }
+.showWord{
+  border-radius: 10px;
+  width:10%;
+  background-color: lightgray;
+  
+}
+.infoText {
+  
+  font-weight: bold;
+  
+  
+}
+.wordBtns {
+  width:100%;
+  text-align: center;
+}

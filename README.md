@@ -52,6 +52,15 @@ The user first listens to the sentence and writes the answer in the input field.
 The user can adjust the audio speed of the mp3 file to be slower or faster with the push of a button.
 This is done with the JavaScript playbackRate method. PlaybackRate defaults to 1.0 and is stored in the React State variable. Depending on the user's choice, the value of the playback rate is increased or decreased by 0.5 per click
 
+DRAG N DROP
+
+The user can also use the drag and drop function when answering the questions. The drag and drop feature of this app is made without any external libraries. The drag and drop feature in this app uses the HTML 5 Drag N Drop API and JavaScript code.
+
+Example picture where the user drags the answer button with the mouse into the input input field.
+The question and answer options are obtained from an external json file, which are looped with the JS map function and displayed in the button elements.
+
+![alt text](frontend/src/images/LLdnd.png)
+
 CHANGING WEB SPEECH API VALUES ​​AND SETTINGS
 
 The user can change the voice, speed, pitch and volume of the Speech API. The change settings are displayed in the React Carousel component, where the user can select one or more settings that they want to change.
