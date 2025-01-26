@@ -146,11 +146,22 @@ function App() {
 
 
 
-  //evt on select-komponentista valitun taulun nimi
+  //evt on select-komponentista valitun taulun nimi, ev on optionsin teksti
   const selection = (ev, evt) => {
-    setUserSelect(table = ev)
-    setTable(table = evt)
-    setLearnCB(learnCB = false)
+    if (ev==='Select language to learn')
+    {
+      ev=''
+      document.getElementById("comBtn").disabled=true
+      setUserSelect(table = ev)
+    }
+    else{
+      document.getElementById("comBtn").disabled=false
+      setUserSelect(table = ev)
+      setTable(table = evt)
+      setLearnCB(learnCB = false)
+
+    }
+   
 
 
   }
@@ -161,9 +172,8 @@ function App() {
     var msg = new SpeechSynthesisUtterance();
     if (langcode === 'Finnish') {
       msg.lang = "fi"
-
-
     }
+    
     else if (langcode === "Swedish") {
       msg.lang = "sv"
     }
@@ -188,7 +198,7 @@ function App() {
       <center>
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
         <select class="form-select form-select-sm w-25" onChange={e => selection(e.target.options[e.target.selectedIndex].text, e.target.value)} aria-label=".form-select-sm example">
-          <option selected >Select language to learn</option>
+          <option selected>Select language to learn</option>
           <option id='opt1' value="questions">Finnish</option>
           <option id='opt2' value="questionswe">Swedish</option>
         </select>
@@ -196,7 +206,7 @@ function App() {
 
       </center>
       <span className='comWordBtn'>
-        <button hidden={learnCB} class="btn btn-primary btn-sm" onClick={() => { setComWords(!comWords); setLearnCB(!learnCB) }}>Show Common {userSelect} words</button>
+        <button id='comBtn' hidden={learnCB} class="btn btn-primary btn-sm" onClick={() => { setComWords(!comWords); setLearnCB(!learnCB) }}>Show Common {userSelect} words</button>
       </span>
 
       <center>

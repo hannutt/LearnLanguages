@@ -1,6 +1,6 @@
 [
-    {"id":1,"fi":"Hei","en":"Hello","sv":"Hejsan"},
-    {"id":2,"fi":"Kiitos","en":"Thanks", "sv":"Tack"},
+    {"id":1,"fi":"Hei","en":"Hello","sv":"Hejsan","qen":"what is hello in finnish?"},
+    {"id":2,"fi":"Kiitos","en":"Thanks", "sv":"Tack","qen":"what is thanks in finnish?"},
     {"id":3,"fi":"Ole hyvä","en": "You're welcome", "sv":"varsågod"},
     {"id":4,"fi":"Ei kestä" ,"en":"Don't mention it","sv":"det var så lite"},
     {"id":5,"fi":"Hyvää Huomenta" ,"en":"Good Morning","sv":"God Morgon"}

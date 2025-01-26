@@ -1,10 +1,11 @@
 import { useState,useEffect } from "react";
 import axios from "axios"
 import TextToSpeech from "./TextToSpeech";
-import { Chart } from "react-google-charts";
+
 import microphone16px from "../images/microphone16px.png"
 import ListenSentences from '../pages/ListenSentences';
 import Scores from '../pages/Scores.js';
+import ScoreBoard from '../pages/ScoreBoard.js'
 
 function WordInput(props) {
   const [userInput, setUserInput] = useState("")
@@ -12,7 +13,7 @@ function WordInput(props) {
   const [correctAns, setCorrectAns] = useState(0)
   const [wrongAns, setWrongAns] = useState(0)
   const [visualization, setVisualization] = useState(false)
-  var [cType, setCtype] = useState("")
+ 
   var [feedback, setFeedback] = useState("")
   var [answerForHint, setAnswerForHint] = useState("")
   var [iHint, setIhint] = useState(0)
@@ -71,12 +72,7 @@ function WordInput(props) {
 
  
 
-  //ev parametri sisältää checkboxin value propertyn ctype on charttype eli kaavion tyyppi
-  const dataVisualization = (ev) => {
-    setVisualization(!visualization)
-    setCtype(cType = ev)
 
-  }
 
 
   const askHint = async () => {
@@ -223,53 +219,10 @@ function WordInput(props) {
         </span>
         <span className="scoreSpan">
           <Scores/>
-          </span>
-      
-       
-       
-        
-      
+          </span> 
       {/*lähetetään texttospeech komponentille flexcont state muuttuja*/}
       <TextToSpeech flexCont={flexCont} />
-      <div className="answers">
-        <h5 className="correct">Correct answers: {correctAns}</h5>
-        <h5 className="wrong">Wrong answers: {wrongAns}</h5>
-      </div>
-      <div className="visualDiv">
-        {/*datavisualization funktio saa onchangessa parametrina checkboksin valuen eli Gauge */}
-        <input class="form-check-input" type="checkbox" id="visualCB" value="Gauge" onChange={e => dataVisualization(e.target.value)} />
-        <label class="form-check-label" for="visualCB">Show data visualization in Cauge</label>
-        <br></br>
-        <input class="form-check-input" type="checkbox" id="visualCB2" value="PieChart" onChange={e => dataVisualization(e.target.value)} />
-        <label class="form-check-label" for="visualCB2">Show data visualization in Pie Chart</label>
-      </div>
-
-
-      <center>
-        {/*google chartin valinta gauge/piechart riippuen ctypen arvost*/}
-        {visualization && cType === "Gauge" && <Chart
-          // google chart komponentti
-          chartType={cType}
-          data={[
-            ["Label", "Value"],
-            ["Wrong", wrongAns],
-            ["Correct", correctAns],
-
-
-          ]}
-
-        />}
-        {visualization && cType === "PieChart" && <Chart
-          // google chart komponentti
-          chartType={cType}
-          data={[
-            ["Answers", ""],
-            ["Correct", correctAns],
-            ["Wrong", wrongAns],
-
-          ]}
-        />}
-      </center>
+      <ScoreBoard correctAns={correctAns} wrongAns={wrongAns} setVisualization={setVisualization} visualization={visualization}/>
 
     </div>
   )
