@@ -9,7 +9,7 @@ import words from './pages/words.json'
 import { useState, useEffect } from 'react';
 import voicecommand from './images/voice-command.png'
 import ImageOptions from './pages/ImageOptions.js'
-
+import PlayerReset from './pages/PlayerReset.js'
 
 
 function App() {
@@ -33,6 +33,7 @@ function App() {
   const [helperImg, setHelperImg] = useState(false)
   const [translateOptions, setTranslateOptions] = useState(true)
   var [countryCode, setCountryCode] = useState("")
+  const [dnd, setDnd] = useState(false)
 
   const getGeoLocation = () => {
     var geoapk = localStorage.getItem("geoapk")
@@ -42,10 +43,7 @@ function App() {
       .then(result => setCountryCode(countryCode = result.country.iso_code))
       .catch(error => console.log('error', error));
 
-
   }
-
-
   //getGeoLocation()
 
   const askName = () => {
@@ -115,23 +113,22 @@ function App() {
 
   }
 
-const timelimit=()=>{
-  const interval=setInterval(() => {
-    setTimeToAnswer(timeToAnswer -= 1)
-    if (timeToAnswer==0)
-      {
+  const timelimit = () => {
+    const interval = setInterval(() => {
+      setTimeToAnswer(timeToAnswer -= 1)
+      if (timeToAnswer == 0) {
         //lopetetaan intervalin suoritus
         clearInterval(interval)
       }
 
-  }, 1000);
+    }, 1000);
 
 
-}
+  }
 
 
   const handleClick = async () => {
-   
+
     setTranslatedQuestion(translatedQuestion = true)
     setOptionsDiv(!optionsDiv)
     setStartLearn(!startLearn)
@@ -173,12 +170,11 @@ const timelimit=()=>{
 
     msg.text = arr[0]
     window.speechSynthesis.speak(msg);
-
-
-
   }
+
   const runcmd = () => {
     const res = axios.get("http://localhost:8800/shell")
+    
   }
 
   return (
@@ -186,6 +182,7 @@ const timelimit=()=>{
       <img src={learnHeader} alt='Header'></img>
       <br></br>
       <h2 className='lngHeader'>Languages</h2>
+      <PlayerReset/>
       <p>{countryCode.toLowerCase()}</p>
 
       <center>
@@ -224,27 +221,23 @@ const timelimit=()=>{
 
 
       <center>
+      <div class="form-check form-check-inline">
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="startLearnCB" onChange={handleClick} />
         <label class="form-check-label" hidden={learnCB} for="startLearnCB">Start learning {userSelect}</label>
         <br></br>
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="timeLimitCB" onChange={timelimit} />
         <label class="form-check-label" hidden={learnCB} for="timeLimitCB">Time Limited?</label>
         <br></br>
-
+        <input class="form-check-input" hidden={learnCB} type="checkbox" id="dndCB" onChange={() => setDnd(!dnd)} />
+        <label class="form-check-label" hidden={learnCB} for="dndCB">Drag N Drop</label>
+        <br></br>
+        <input class="form-check-input" hidden={learnCB} type="checkbox" id="translateOpt" onChange={() => setTranslateOptions(!translateOptions)} />
+        <label class="form-check-label" hidden={learnCB} for="translateOpt">Show translate options</label>
+        </div>
       </center>
 
       <p id='selectedLanguage'>{selLanguage}</p>
       <p>{timeToAnswer}</p>
-
-      <div hidden={learnCB}>
-        <input class="form-check-input" type="checkbox" value="" id="translateOpt" onChange={() => setTranslateOptions(!translateOptions)} />
-        <label class="form-check-label" for="translateOpt">
-          Show translate options
-        </label>
-        <br></br>
-
-      </div>
-
 
       <div className='options' hidden={translateOptions}>
         <select name="language" id="language" className='language' onChange={e => setSelLanguage(e.target.value)}>
@@ -276,7 +269,7 @@ const timelimit=()=>{
       {/*jos starlearn on true eli checkboksia on klikattu näytetään wordinput komponentti
       samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}
       {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} hideImage={hideImage} setHideImage={setHideImage} setOptionsDiv={setOptionsDiv} optionsDiv={optionsDiv} timeToAnswer={timeToAnswer} setTimeToAnswer={setTimeToAnswer} timelimit={timelimit} />}
-        <DragnDrop/>
+      {dnd && <DragnDrop userSelect={userSelect} />}
     </div>
   );
 }

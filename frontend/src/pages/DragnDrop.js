@@ -1,19 +1,15 @@
 import { useRef, useState } from "react"
 import words from '../pages/words.json'
 import '../App.css'
-function DragnDrop() {
-    var letters = ['A', 'B', 'C', 'D']
+function DragnDrop(props) {
     var [wCount, setWcount] = useState(1)
-
-
-
     const allowDrop = (e) => {
         e.preventDefault()
     }
 
     //e-parametri on raahauseventti, l on raahattavan painikkikeen kirjain
     const dStart = (e, l) => {
-        //e.dataTransfer.drop.effect="move"
+       
         e.dataTransfer.setData("text/plain", l)
     }
     const drop = (e) => {
@@ -37,7 +33,10 @@ function DragnDrop() {
                     </center>
                     
                     <div class="btncontainer">
-                        <button class="btn btn-warning btn-sm" draggable onDragStart={(e) => dStart(e, w.fi)}>{w.fi}</button>
+                        {/*userselectin arvosta riippuen json tiedostosta haetaan joko suomen tai ruotsinkielisiä sanoja*/}
+                    {props.userSelect === "Finnish" && <button class="btn btn-warning btn-sm" draggable onDragStart={(e) => dStart(e, w.fi)}>{w.fi}</button>}
+                    {props.userSelect === "Swedish" && <button class="btn btn-warning btn-sm" draggable onDragStart={(e) => dStart(e, w.sv)}>{w.sv}</button>}
+                        
                     </div>
                 </div>
             ))}
