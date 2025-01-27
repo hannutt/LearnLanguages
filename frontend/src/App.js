@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react';
 import voicecommand from './images/voice-command.png'
 import ImageOptions from './pages/ImageOptions.js'
 import PlayerReset from './pages/PlayerReset.js'
+import ScoreBoard from './pages/ScoreBoard.js';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
   const [translateOptions, setTranslateOptions] = useState(true)
   var [countryCode, setCountryCode] = useState("")
   const [dnd, setDnd] = useState(false)
+  var [alt,setAlt]=useState(0)
 
   const getGeoLocation = () => {
     var geoapk = localStorage.getItem("geoapk")
@@ -104,12 +106,23 @@ function App() {
         source: "auto",
         //kieli johon käännetään on käyttäjän valitsema ja se on talletettu state muuttujaan
         target: selLanguage,
+        alternatives:alt,
       }),
       headers: { "Content-Type": "application/json" }
     });
+    
     //json tulosjoukko talletetaan data muuttujaan, että sitä voidaan käyttää translate statessa
     var data = await res.json()
-    setTranslate(translate = data.translatedText)
+    //jos alt suurempi kuin 0, näytetään muuttujan määrän mukaisesti vaihtoehtoisia käännöksiä.
+    if (alt>0)
+    {
+      setTranslate(translate = data.alternatives)
+    }
+    else{
+      setTranslate(translate = data.translatedText)
+
+    }
+    
 
   }
 
@@ -122,10 +135,7 @@ function App() {
       }
 
     }, 1000);
-
-
   }
-
 
   const handleClick = async () => {
 
@@ -250,19 +260,27 @@ function App() {
       <p>{timeToAnswer}</p>
 
       <div className='options' hidden={translateOptions}>
-        <select name="language" id="language" className='language' onChange={e => setSelLanguage(e.target.value)}>
-          <option selected >Select language </option>
-          <option value="es">Spanish</option>
-          <option value="de">German</option>
-          <option value="fr">French</option>
-        </select>
+      
+       
         <span className='translateBtn'>
           <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
           <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button>
         </span>
         <br></br>
-        <button class="btn btn-info btn-sm" onClick={runcmd}>Start libretranslate</button>
+        <button class="btn btn-info btn-sm" onClick={runcmd}>Start libretranslate</button> 
       </div>
+      <br></br>
+      <select id='alternatives' hidden={translateOptions} onChange={e=>setAlt(e.target.value)}>
+          <option selected>Alternatives</option>
+          <option>1</option>
+          <option>2</option>
+        </select>
+        <select name="language" id="language" hidden={translateOptions} className='language' onChange={e => setSelLanguage(e.target.value)}>
+          <option selected >Select language </option>
+          <option value="es">Spanish</option>
+          <option value="de">German</option>
+          <option value="fr">French</option>
+        </select>
       <center>
         <br></br>
         <p id='translatedQuestion' className='translatedQuestion' hidden={translatedQuestion}>{translate}</p>
@@ -279,7 +297,7 @@ function App() {
       {/*jos starlearn on true eli checkboksia on klikattu näytetään wordinput komponentti
       samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}
       {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} hideImage={hideImage} setHideImage={setHideImage} setOptionsDiv={setOptionsDiv} optionsDiv={optionsDiv} timeToAnswer={timeToAnswer} setTimeToAnswer={setTimeToAnswer} timelimit={timelimit} />}
-      {dnd && <DragnDrop userSelect={userSelect} />}
+      {dnd && <DragnDrop userSelect={userSelect}/> }
     </div>
   );
 }

@@ -70,11 +70,6 @@ function WordInput(props) {
 
   }
 
- 
-
-
-
-
   const askHint = async () => {
 
     const res = await axios.get("http://localhost:8800/askhint/" + props.questionId)
@@ -223,7 +218,7 @@ function WordInput(props) {
       {/*lähetetään texttospeech komponentille flexcont state muuttuja*/}
       <TextToSpeech flexCont={flexCont} />
       <ScoreBoard correctAns={correctAns} wrongAns={wrongAns} setVisualization={setVisualization} visualization={visualization}/>
-
+      
     </div>
   )
 }

@@ -13,10 +13,11 @@ function ImageOptions(props) {
     var [imgHeight, setImgHeight] = useState(200)
     const [adjustHue,SetAdjustHue]=useState(false)
     var [ext,setExt]=useState('')
+    var slid = document.getElementById("rng")
     
     //sliderin kontrollointi ja kuvan kirkkauden/kontrastin säätö valinnan mukaan
     const sliderMove = () => {
-        var slid = document.getElementById("rng")
+        
         document.getElementById("sliderVal").innerText = slid.value
         if (adjustConst) {
             setCssText(cssText = "contrast")
@@ -49,16 +50,18 @@ function ImageOptions(props) {
     }
 
     const resetCssValues=()=>{
-       
         
         if (adjustHue)
         {
             setCssValue(cssValue=0)
             document.getElementById("sliderVal").innerText = 0
+            //slider komponentin arvo, eli näytettävä viiva
+            slid.value=0
         }
         else{
             document.getElementById("sliderVal").innerText = 100
             setCssValue(cssValue=100)
+            slid.value=100
         }
         setImgHeight(imgHeight = 200)
         setImgWidth(imgWidth = 200)

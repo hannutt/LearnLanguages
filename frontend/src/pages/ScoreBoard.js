@@ -10,6 +10,7 @@ function ScoreBoard(props) {
     }
     return (
         <div>
+            
             <div className="answers">
                 <h5 className="correct">Correct answers: {props.correctAns}</h5>
                 <h5 className="wrong">Wrong answers: {props.wrongAns}</h5>

@@ -1,32 +1,35 @@
 import { useRef, useState } from "react"
 import words from '../pages/words.json'
 import '../App.css'
+import ScoreBoard from "./ScoreBoard"
+
 function DragnDrop(props) {
     var [wCount, setWcount] = useState(1)
-    var [userInput,setUserInput]=useState('')
-    var [dndFeedback,setDndFeedback]=useState('')
+    var [userInput, setUserInput] = useState('')
+    var [dndFeedback, setDndFeedback] = useState('')
     const allowDrop = (e) => {
         e.preventDefault()
     }
 
     //e-parametri on raahauseventti, l on raahattavan painikkikeen tekstisältö
     const dStart = (e, l, qen) => {
-        document.getElementById("sentence").innerText=qen
+        document.getElementById("sentence").innerText = qen
 
         e.dataTransfer.setData("text/plain", l)
     }
     const drop = (e) => {
         const dndData = e.dataTransfer.getData("text/plain")
         document.getElementById("dropInput").value += dndData.toLowerCase()
-        setUserInput(userInput=dndData)
+        setUserInput(userInput = dndData)
 
     }
-    
-    
+
+
     const answerCheck = () => {
-        userInput=userInput.toLowerCase() 
+      
+        userInput = userInput.toLowerCase()
         var apk = localStorage.getItem("apk")
-        var sent=document.getElementById("sentence").innerText
+        var sent = document.getElementById("sentence").innerText
 
         const API_URL = "https://api.openai.com/v1/chat/completions"
         const requestOptions = {
@@ -37,7 +40,7 @@ function DragnDrop(props) {
             },
             body: JSON.stringify({
                 model: "gpt-3.5-turbo",
-                messages: [{ role: "user", content:sent }]
+                messages: [{ role: "user", content: sent }]
             })
 
 
@@ -49,8 +52,8 @@ function DragnDrop(props) {
 
             if (userInput === answerLower || answerLower.includes(userInput)) {
                 setWcount(wCount + 1)
-                setDndFeedback(dndFeedback="CORRECT")
-                //asynkrooninen staten päivitys, eli näin staten arvo saadaan päivittymään
+                setDndFeedback(dndFeedback = "CORRECT")
+
 
             }
         }).catch((error) => {
@@ -61,7 +64,9 @@ function DragnDrop(props) {
 
     }
     return (
+
         <div>
+            
             <h3>{dndFeedback}</h3>
             <p className="infoText">Choose the correct word for the answer to the word</p>
             {words.map(w => (
@@ -83,8 +88,8 @@ function DragnDrop(props) {
             <div>
                 <br></br>
                 <input type="text" id="dropInput" onDragOver={allowDrop} onDrop={drop}></input>
-                
-                <p id="sentence"></p>
+
+                <p hidden id="sentence"></p>
                 <button class="btn btn-info btn-sm" onClick={answerCheck} >Check answer</button>
             </div>
         </div>
