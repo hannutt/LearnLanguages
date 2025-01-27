@@ -11,6 +11,7 @@ import voicecommand from './images/voice-command.png'
 import ImageOptions from './pages/ImageOptions.js'
 import PlayerReset from './pages/PlayerReset.js'
 import ScoreBoard from './pages/ScoreBoard.js';
+import Translator from './pages/Translator.js'
 
 
 function App() {
@@ -18,10 +19,8 @@ function App() {
   const [question, setQuestion] = useState([])
   const [questionId, setQuestionId] = useState(1)
   var [table, setTable] = useState("")
-
   var [userSelect, setUserSelect] = useState("")
   var [learnCB, setLearnCB] = useState(true)
-  var [translate, setTranslate] = useState([])
   var [selLanguage, setSelLanguage] = useState("")
   const [optionsDiv, setOptionsDiv] = useState(true)
   var [translatedQuestion, setTranslatedQuestion] = useState(true)
@@ -29,13 +28,14 @@ function App() {
   const [limited, setLimited] = useState(false)
   const [hideImage, setHideImage] = useState(true)
   var [animateDiv, setAnimateDiv] = useState("helperImage")
-  const [listenTranslate, setListenTranslate] = useState(true)
+ 
   const [comWords, setComWords] = useState(true)
   const [helperImg, setHelperImg] = useState(false)
   const [translateOptions, setTranslateOptions] = useState(true)
   var [countryCode, setCountryCode] = useState("")
   const [dnd, setDnd] = useState(false)
-  var [alt,setAlt]=useState(0)
+  
+  const [showOpt,setShowOpt]=useState(false)
 
   const getGeoLocation = () => {
     var geoapk = localStorage.getItem("geoapk")
@@ -82,49 +82,10 @@ function App() {
 
   }
   //funktio toteuttaa tekstin puheeksi käännetyn kysymyksen osalta
-  const listen = () => {
-    //käännetty kysymys
-    var q = document.getElementById("translatedQuestion").innerText
-
-    const utterance = new SpeechSynthesisUtterance(q);
-    //puheen kielen asetus
-    utterance.lang = selLanguage
-    speechSynthesis.speak(utterance);
-  }
+ 
 
 
-  //libretranslaten käyttö kääntämiseen
-  const translateText = async () => {
-    setTranslatedQuestion(!translatedQuestion)
-    setListenTranslate(!listenTranslate)
-
-    var questionTranslate = document.getElementById("question").innerText
-    const res = await fetch("http://127.0.0.1:5000/translate", {
-      method: "POST",
-      body: JSON.stringify({
-        q: questionTranslate,
-        source: "auto",
-        //kieli johon käännetään on käyttäjän valitsema ja se on talletettu state muuttujaan
-        target: selLanguage,
-        alternatives:alt,
-      }),
-      headers: { "Content-Type": "application/json" }
-    });
-    
-    //json tulosjoukko talletetaan data muuttujaan, että sitä voidaan käyttää translate statessa
-    var data = await res.json()
-    //jos alt suurempi kuin 0, näytetään muuttujan määrän mukaisesti vaihtoehtoisia käännöksiä.
-    if (alt>0)
-    {
-      setTranslate(translate = data.alternatives)
-    }
-    else{
-      setTranslate(translate = data.translatedText)
-
-    }
-    
-
-  }
+ 
 
   const timelimit = () => {
     const interval = setInterval(() => {
@@ -192,10 +153,7 @@ function App() {
     window.speechSynthesis.speak(msg);
   }
 
-  const runcmd = () => {
-    const res = axios.get("http://localhost:8800/shell")
-    
-  }
+  
 
   return (
     <div className="App">
@@ -251,40 +209,15 @@ function App() {
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="dndCB" onChange={() => setDnd(!dnd)} />
         <label class="form-check-label" hidden={learnCB} for="dndCB">Drag N Drop</label>
         <br></br>
-        <input class="form-check-input" hidden={learnCB} type="checkbox" id="translateOpt" onChange={() => setTranslateOptions(!translateOptions)} />
+        <input class="form-check-input" hidden={learnCB} type="checkbox" id="translateOpt" onChange={() => setShowOpt(!showOpt)} />
         <label class="form-check-label" hidden={learnCB} for="translateOpt">Show translate options</label>
         </div>
       </center>
 
-      <p id='selectedLanguage'>{selLanguage}</p>
+      
       <p>{timeToAnswer}</p>
 
-      <div className='options' hidden={translateOptions}>
-      
-       
-        <span className='translateBtn'>
-          <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
-          <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button>
-        </span>
-        <br></br>
-        <button class="btn btn-info btn-sm" onClick={runcmd}>Start libretranslate</button> 
-      </div>
-      <br></br>
-      <select id='alternatives' hidden={translateOptions} onChange={e=>setAlt(e.target.value)}>
-          <option selected>Alternatives</option>
-          <option>1</option>
-          <option>2</option>
-        </select>
-        <select name="language" id="language" hidden={translateOptions} className='language' onChange={e => setSelLanguage(e.target.value)}>
-          <option selected >Select language </option>
-          <option value="es">Spanish</option>
-          <option value="de">German</option>
-          <option value="fr">French</option>
-        </select>
-      <center>
-        <br></br>
-        <p id='translatedQuestion' className='translatedQuestion' hidden={translatedQuestion}>{translate}</p>
-      </center>
+      {showOpt && <Translator translateOptions={!translateOptions}   translatedQuestion={translatedQuestion} selLanguage={selLanguage} setSelLanguage={setSelLanguage} setTranslatedQuestion={setTranslatedQuestion}/>}
       <p id='feedback' className='feedback'></p>
       <br></br>
       {question.map(q => (
