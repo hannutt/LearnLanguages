@@ -21,7 +21,7 @@ function App() {
   var [table, setTable] = useState("")
   var [userSelect, setUserSelect] = useState("")
   var [learnCB, setLearnCB] = useState(true)
-  var [selLanguage, setSelLanguage] = useState("")
+ 
   const [optionsDiv, setOptionsDiv] = useState(true)
   var [translatedQuestion, setTranslatedQuestion] = useState(true)
   var [timeToAnswer, setTimeToAnswer] = useState(20)
@@ -32,20 +32,12 @@ function App() {
   const [comWords, setComWords] = useState(true)
   const [helperImg, setHelperImg] = useState(false)
   const [translateOptions, setTranslateOptions] = useState(true)
-  var [countryCode, setCountryCode] = useState("")
+ 
   const [dnd, setDnd] = useState(false)
   
   const [showOpt,setShowOpt]=useState(false)
 
-  const getGeoLocation = () => {
-    var geoapk = localStorage.getItem("geoapk")
-    fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${geoapk}`)
-      .then(response => response.json())
-      //haetaan vain maa ja maan iso-koodi tulosjoukosta ja talletetaan se statemuuttujaan
-      .then(result => setCountryCode(countryCode = result.country.iso_code))
-      .catch(error => console.log('error', error));
-
-  }
+  
   //getGeoLocation()
 
   const askName = () => {
@@ -82,10 +74,7 @@ function App() {
 
   }
   //funktio toteuttaa tekstin puheeksi käännetyn kysymyksen osalta
- 
-
-
- 
+  
 
   const timelimit = () => {
     const interval = setInterval(() => {
@@ -161,7 +150,7 @@ function App() {
       <br></br>
       <h2 className='lngHeader'>Languages</h2>
       <PlayerReset/>
-      <p>{countryCode.toLowerCase()}</p>
+      
 
       <center>
         {/*w-25 muuttaa leveyden 25 prosenttiin*/}
@@ -217,7 +206,7 @@ function App() {
       
       <p>{timeToAnswer}</p>
 
-      {showOpt && <Translator translateOptions={!translateOptions}   translatedQuestion={translatedQuestion} selLanguage={selLanguage} setSelLanguage={setSelLanguage} setTranslatedQuestion={setTranslatedQuestion}/>}
+      {showOpt && <Translator translateOptions={!translateOptions} translatedQuestion={translatedQuestion} setTranslatedQuestion={setTranslatedQuestion}/>}
       <p id='feedback' className='feedback'></p>
       <br></br>
       {question.map(q => (

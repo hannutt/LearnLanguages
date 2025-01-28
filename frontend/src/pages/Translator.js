@@ -3,11 +3,34 @@ import { useState } from "react"
 function Translator(props) {
     var [translate, setTranslate] = useState([])
     var [alt,setAlt]=useState(0)
+    var [selLanguage, setSelLanguage] = useState("")
     const [listenTranslate, setListenTranslate] = useState(true)
+    const [ltStart,setLtStart]=useState(false)
+    const [lsClose,setLsClose]=useState(true)
+    var [countryCode, setCountryCode] = useState("")
+
+    const getGeoLocation = () => {
+        var geoapk = localStorage.getItem("geoapk")
+        fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${geoapk}`)
+          .then(response => response.json())
+          //haetaan vain maa ja maan iso-koodi tulosjoukosta ja talletetaan se statemuuttujaan
+          .then(result => setCountryCode(countryCode = result.country.iso_code))
+          .catch(error => console.log('error', error));
+    
+      }
+      getGeoLocation()
 
     const runcmd = () => {
+        setLtStart(!ltStart)
+        setLsClose(!lsClose)
         const res = axios.get("http://localhost:8800/shell")
 
+    }
+
+    const closeCmd=()=>{
+        setLtStart(!ltStart)
+        setLsClose(!lsClose)
+        const res=axios.get("http://localhost:8800/closeShell")
     }
 
     const listen = () => {
@@ -16,7 +39,7 @@ function Translator(props) {
 
         const utterance = new SpeechSynthesisUtterance(q);
         //puheen kielen asetus
-        utterance.lang = props.selLanguage
+        utterance.lang = selLanguage
         speechSynthesis.speak(utterance);
     }
     //libretranslaten käyttö kääntämiseen
@@ -31,7 +54,7 @@ function Translator(props) {
                 q: questionTranslate,
                 source: "auto",
                 //kieli johon käännetään on käyttäjän valitsema ja se on talletettu state muuttujaan
-                target: props.selLanguage,
+                target: selLanguage,
                 alternatives: alt,
             }),
             headers: { "Content-Type": "application/json" }
@@ -52,8 +75,13 @@ function Translator(props) {
     }
     return (
         <div>
+            
+            
+            <br></br>
+            <button onClick={()=>setSelLanguage(selLanguage=countryCode.toLowerCase())} class="btn btn-warning btn-sm">Set {countryCode.toLowerCase()} to text to speech language?</button>
             <div className='options' hidden={props.translateOptions}>
-            <p id='selectedLanguage'>{props.selLanguage}</p>
+            <p hidden id='selectedLanguage'>{selLanguage}</p>
+            
 
 
                 <span className='translateBtn'>
@@ -61,7 +89,8 @@ function Translator(props) {
                     <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button>
                 </span>
                 <br></br>
-                <button class="btn btn-info btn-sm" onClick={runcmd}>Start libretranslate</button>
+                <button class="btn btn-info btn-sm" hidden={ltStart} onClick={runcmd}>Start libretranslate</button>
+                <button class="btn btn-primary btn-sm" hidden={lsClose} onClick={closeCmd}>Close libretranslate</button>
             </div>
             <br></br>
             <select id='alternatives' hidden={props.translateOptions} onChange={e =>setAlt(e.target.value)}>
@@ -69,7 +98,7 @@ function Translator(props) {
                 <option>1</option>
                 <option>2</option>
             </select>
-            <select name="language" id="language" hidden={props.translateOptions} className='language' onChange={e => props.setSelLanguage(e.target.value)}>
+            <select name="language" id="language" hidden={props.translateOptions} className='language' onChange={e =>setSelLanguage(e.target.value)}>
                 <option selected >Select language </option>
                 <option value="es">Spanish</option>
                 <option value="de">German</option>

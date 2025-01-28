@@ -32,7 +32,7 @@ The questions are presented in English by default. However, the user can transla
 If desired, the user can also choose how many alternative translations are displayed in the selected language.
 the amount is selected from the html component. the selected amount is stored in a state variable using the onChange event handler. Finally, the status variable is passed to the options property of the LibreTranslate API.
 
-In this project, the LibreTranslate API runs locally and needs to be started using the command prompt. A button has been created in the program, which, when clicked, calls a Node.js method that starts LibreTranslate with the exec function. So the user does not have to use the command prompt separately, but the exec function of the Node.js method handles the startup.
+In this project, the LibreTranslate API runs locally and needs to be started using the command prompt. A button has been created in the program, which, when clicked, calls a Node.js method that starts LibreTranslate with the exec function. So the user does not have to use the command prompt separately, but the exec function of the Node.js method handles the startup. Closing the LibreTranslate API is also done with the exec function.
 
 Example image where the user has translated the given question from English to German using the LibreTranslate API. 
 
@@ -43,7 +43,9 @@ LISTENING THE QUESTION
 
 The user can also listen to the question asked. The question is converted from text to speech using
 the JavaScript Web Speech API. The operation of the Web Speech API is implemented by a simple function
-that is executed when the user clicks a button.
+that is executed when the user clicks a button. 
+
+The application locates the user's country based on the IP address using the Geoapify API. After localization, the user can optionally change the language of the localized country to the language of the SpeechSynthesis API.
 
 The text-to-speech feature of this app can also repeat a translated question. For example, the program repeats a question translated into Spanish in Spanish, etc. This is done with a simple variable. When the user selects a language from the html selection component, the onChange event handler sends the language code of the selected language to the function that implements the speaking. The language "value" attribute of each Select component is the language code for that language, which is passed to the function when the user selects the language.
 
