@@ -1,5 +1,6 @@
 import { Chart } from "react-google-charts";
 import { useState } from "react";
+
 function ScoreBoard(props) {
     var [cType, setCtype] = useState("")
     //ev parametri sisältää checkboxin value propertyn ctype on charttype eli kaavion tyyppi

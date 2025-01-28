@@ -18,6 +18,7 @@ function DragnDrop(props) {
         e.dataTransfer.setData("text/plain", l)
     }
     const drop = (e) => {
+        //dnddata muuttujaan talletetaan raahattavan buttonin tekstisisältö, kun se pudotetaan input-kenttään
         const dndData = e.dataTransfer.getData("text/plain")
         document.getElementById("dropInput").value += dndData.toLowerCase()
         setUserInput(userInput = dndData)
@@ -53,8 +54,7 @@ function DragnDrop(props) {
             if (userInput === answerLower || answerLower.includes(userInput)) {
                 setWcount(wCount + 1)
                 setDndFeedback(dndFeedback = "CORRECT")
-
-
+                document.getElementById("dropInput").value=""
             }
         }).catch((error) => {
             console.log(error)

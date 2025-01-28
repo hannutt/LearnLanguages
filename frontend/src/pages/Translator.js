@@ -82,8 +82,6 @@ function Translator(props) {
             <div className='options' hidden={props.translateOptions}>
             <p hidden id='selectedLanguage'>{selLanguage}</p>
             
-
-
                 <span className='translateBtn'>
                     <button class="btn btn-primary btn-sm" onClick={translateText}>Translate question</button>
                     <button class="btn btn-info btn-sm" hidden={listenTranslate} onClick={listen}>Listen translated question</button>

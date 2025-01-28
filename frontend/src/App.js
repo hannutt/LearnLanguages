@@ -12,7 +12,7 @@ import ImageOptions from './pages/ImageOptions.js'
 import PlayerReset from './pages/PlayerReset.js'
 import ScoreBoard from './pages/ScoreBoard.js';
 import Translator from './pages/Translator.js'
-
+import Generate from './pages/Generate.js';
 
 function App() {
   const [startLearn, setStartLearn] = useState(false)
@@ -32,11 +32,9 @@ function App() {
   const [comWords, setComWords] = useState(true)
   const [helperImg, setHelperImg] = useState(false)
   const [translateOptions, setTranslateOptions] = useState(true)
- 
   const [dnd, setDnd] = useState(false)
-  
   const [showOpt,setShowOpt]=useState(false)
-
+  const [generate,setGenerate]=useState(false)
   
   //getGeoLocation()
 
@@ -200,6 +198,9 @@ function App() {
         <br></br>
         <input class="form-check-input" hidden={learnCB} type="checkbox" id="translateOpt" onChange={() => setShowOpt(!showOpt)} />
         <label class="form-check-label" hidden={learnCB} for="translateOpt">Show translate options</label>
+        <br></br>
+        <input class="form-check-input" hidden={learnCB} type="checkbox" id="generateOpt" onChange={() => setGenerate(!generate)} />
+        <label class="form-check-label" hidden={learnCB} for="generateOpt">Generate sentences</label>
         </div>
       </center>
 
@@ -220,6 +221,7 @@ function App() {
       samalla lähetetään wordinput komponentille näytettävä kysymys huomaa getfeedback apufunktion lähetys wordinput komponentille*/}
       {startLearn && <WordInput question={question} setQuestionId={setQuestionId} questionId={questionId} setQuestion={setQuestion} getFeedback={getFeedback} table={table} hideImage={hideImage} setHideImage={setHideImage} setOptionsDiv={setOptionsDiv} optionsDiv={optionsDiv} timeToAnswer={timeToAnswer} setTimeToAnswer={setTimeToAnswer} timelimit={timelimit} />}
       {dnd && <DragnDrop userSelect={userSelect}/> }
+      {generate && <Generate/>}
     </div>
   );
 }

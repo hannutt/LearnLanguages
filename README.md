@@ -55,7 +55,11 @@ The program uses mp3 files with short sentences suitable for language learning.
 The user first listens to the sentence and writes the answer in the input field. the response of the input field is stored in a state variable and given as a parameter to the JS fetch method that communicates with the GPT API. The GPT-API checks the user's answer and if the answer is correct, the user can listen to a new sentence.
 
 The user can adjust the audio speed of the mp3 file to be slower or faster with the push of a button.
-This is done with the JavaScript playbackRate method. PlaybackRate defaults to 1.0 and is stored in the React State variable. Depending on the user's choice, the value of the playback rate is increased or decreased by 0.5 per click
+This is done with the JavaScript playbackRate method. PlaybackRate defaults to 1.0 and is stored in the React State variable. Depending on the user's choice, the value of the playback rate is increased or decreased by 0.5 per click.
+
+RANDOM SENTENCES
+
+User can generate random phrases to display in the app. Random phrases are generated using the external Quote API and retrieved using the JavaScript Fetch method. The idea is that the user reads the sentence and translates it into Finnish by writing the answer in the html input field. the translated sentence is sent to the GPT API, which checks the correctness of the user's answer.
 
 DRAG N DROP
 
