@@ -271,5 +271,11 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
 .quotePlace {
   word-wrap: break-word;
   width: 300px;
-  border: 1px solid black;
+  border: 2px solid black;
+  box-shadow: 5px 5px;
+  border-radius: 5px;
+}
+.letterSpacing,.textColor {
+  width:8%;
+  margin-right: 5px;
 }

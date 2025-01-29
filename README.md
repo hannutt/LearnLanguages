@@ -62,6 +62,9 @@ RANDOM SENTENCES
 User can generate random phrases to display in the app. Random phrases are generated using the external Quote API and retrieved using the JavaScript Fetch method. The idea is that the user reads the sentence and translates it into Finnish by writing the answer in the html input field. the translated sentence is sent to the GPT API, which checks the correctness of the user's answer.
 
 An example image with a random phrase fetched from the API and displayed to the user. The user can increase or decrease the font of the generated text by clicking the plus and minus buttons. Both buttons have a JavaScript function that uses the getComputedStyle and getPropertyValues ​​functions to increase and decrease the font size of the element's text. Each click decreases/enlarges the font by 2 pixels at a time.
+The default font size is 16 pixels and the user can reset the size by clicking the R button.
+
+The color of the text can also be changed by selecting one of the colors of the selected component. The Select component has an onChange event handler that sends the selected color as a parameter to a JavaScript function that implements the text color change. You can also change the letter spacing. It has its own html selection component that works in the same way as the text color change described above.
 
 ![alt text](frontend/src/images/LLappGenerate.png)
 
