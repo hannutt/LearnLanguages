@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios"
 import TextToSpeech from "./TextToSpeech";
 
@@ -13,25 +13,25 @@ function WordInput(props) {
   const [correctAns, setCorrectAns] = useState(0)
   const [wrongAns, setWrongAns] = useState(0)
   const [visualization, setVisualization] = useState(false)
- 
+
   var [feedback, setFeedback] = useState("")
   var [answerForHint, setAnswerForHint] = useState("")
   var [iHint, setIhint] = useState(0)
   var [countClicks, setCountClicks] = useState(1)
   const [listenCB, setListenCB] = useState(false)
   const [flexCont, setFlexCont] = useState(false)
-  var [userName,setUserName]=useState('')
+  var [userName, setUserName] = useState('')
+ 
 
   //useeffectillä voidaan tarkkailla app.js:llä timetoanswer muuttujan vähennystä.
   //tarkkailu tapahtuu wordinput komponentissa.
-    useEffect(() => {
-      if(props.timeToAnswer===0)
-      {
-        setFeedback(feedback="TIME")
-        props.getFeedback(feedback)
-      }
-  
-    }, [props.timeToAnswer])
+  useEffect(() => {
+    if (props.timeToAnswer === 0) {
+      setFeedback(feedback = "TIME")
+      props.getFeedback(feedback)
+    }
+
+  }, [props.timeToAnswer])
 
 
   //mikrofonin kautta saadun äänen muunto tekstiksi.
@@ -46,7 +46,7 @@ function WordInput(props) {
       const transcript = event.results[0][0].transcript
       document.getElementById("userInput").value = transcript
       recognition.onspeechend = () => {
-        
+
         recognition.stop();
         console.log("Speech recognition has stopped.");
 
@@ -57,13 +57,13 @@ function WordInput(props) {
 
 
   const saveId = () => {
-    localStorage.setItem("table",props.table)
+    localStorage.setItem("table", props.table)
     localStorage.setItem("id", props.questionId)
 
   }
   //funktio hakee localstorageen talletetun kysymysid:n ja taulun nimen
-  const continueFromSaved=async ()=> {
-    var table=localStorage.getItem("table")
+  const continueFromSaved = async () => {
+    var table = localStorage.getItem("table")
     var id = localStorage.getItem("id")
     const res = await axios.get(`http://localhost:8800/tablename/?table=${table}&id=${id}`)
     props.setQuestion(res.data)
@@ -85,18 +85,20 @@ function WordInput(props) {
 
   }
 
-  const saveScores= ()=>{
-    var name=localStorage.getItem("player")
-    setUserName(userName=name)
+  const saveScores = () => {
+    var name = localStorage.getItem("player")
+    setUserName(userName = name)
     console.log(userName)
-    const res = axios.post(`http://localhost:8800/savescores`,{userName,correctAns})    
+    const res = axios.post(`http://localhost:8800/savescores`, { userName, correctAns })
   }
-  
-  const handleClick = async () => {    
-    
-    
+
+
+
+  const handleClick = async () => {
+
+
     var apk = localStorage.getItem("apk")
-    document.getElementById("translatedQuestion").hidden = true
+    //document.getElementById("translatedQuestion").hidden = true
 
     const API_URL = "https://api.openai.com/v1/chat/completions"
     const requestOptions = {
@@ -116,30 +118,29 @@ function WordInput(props) {
       var answer = data.choices[0].message.content
       var answerLower = answer.toLowerCase()
       setAnswerForHint(answerLower)
+     
 
 
       if (userInput === answerLower || answerLower.includes(userInput)) {
         //asynkrooninen staten päivitys, eli näin staten arvo saadaan päivittymään
         const updatedId = props.questionId + 1
-        const updatedTime=props.timeToAnswer+20
+        const updatedTime = props.timeToAnswer + 20
         props.setTimeToAnswer(updatedTime)
         props.setQuestionId(updatedId)
         console.log(updatedId)
 
         //käyttäjän valinnasta riippuen valitaan toinen endpointeista
         //valinta saadaan app.js:n select komponentista
-        if (props.table==="questions")
-        {
+        if (props.table === "questions") {
           const res = await axios.get("http://localhost:8800/question/" + updatedId)
           props.setQuestion(res.data)
 
         }
-        else if (props.table==="questionswe")
-        {
+        else if (props.table === "questionswe") {
           const res = await axios.get("http://localhost:8800/questionswe/" + updatedId)
           props.setQuestion(res.data)
         }
-        
+
         //console.log(res.data)
         //props.setQuestion(res.data)
         setCorrectAns(correctAns + 1)
@@ -148,7 +149,7 @@ function WordInput(props) {
         props.getFeedback(feedback)
         //jos vastaus on oikea, niin nollataan askhint funktion kierrosmuuttuja
         setIhint(iHint = 0)
-    
+
 
         //css-animaation toteutus aina uuden kuvan yhteydessä. tässä tapauksessa
         //animaatio toteutetaan vaihtamalla css-luokan nimeä helperImage-helperImageRestart välillä
@@ -162,11 +163,12 @@ function WordInput(props) {
 
 
       }
+     
       else if (userInput !== answerLower || answerLower.includes(!userInput)) {
         setFeedback(feedback = "INCORRECT")
         //kutsutaan apps.js:llä olevaa apufunktiota, jolle annetaan parametrina feedback state
         props.getFeedback(feedback)
-        setWrongAns(wrongAns+1)
+        setWrongAns(wrongAns + 1)
       }
 
     }).catch((error) => {
@@ -179,7 +181,7 @@ function WordInput(props) {
   return (
 
     <div>
-      <input class="form-check-input" type="checkbox" id="listenCB" onChange={() => { setListenCB(!listenCB); setFlexCont(!flexCont);props.setHideImage(!props.hideImage);props.setOptionsDiv(!props.optionsDiv) }} />
+      <input class="form-check-input" type="checkbox" id="listenCB" onChange={() => { setListenCB(!listenCB); setFlexCont(!flexCont); props.setHideImage(!props.hideImage); props.setOptionsDiv(!props.optionsDiv) }} />
       <label class="form-check-label" for="listenCB">Listen to the sentences</label>
       <p id="selectedRate"></p>
       <p id="selectedVoice"></p>
@@ -203,22 +205,22 @@ function WordInput(props) {
       </div>
       <span className="saveBtn">
         <button id="save" class="btn btn-info btn-sm" onClick={saveId}>Save</button>
-        </span>
-        
-        <span className="continueBtn">
+      </span>
+
+      <span className="continueBtn">
         <button class="btn btn-primary btn-sm" onClick={continueFromSaved}>Continue from save</button>
-        </span>
-        <span className="saveScores">
-          
-          <button class="btn btn-info btn-sm" onClick={saveScores}>Save scores</button> 
-        </span>
-        <span className="scoreSpan">
-          <Scores/>
-          </span> 
+      </span>
+      <span className="saveScores">
+
+        <button class="btn btn-info btn-sm" onClick={saveScores}>Save scores</button>
+      </span>
+      <span className="scoreSpan">
+        <Scores />
+      </span>
       {/*lähetetään texttospeech komponentille flexcont state muuttuja*/}
       <TextToSpeech flexCont={flexCont} />
-      <ScoreBoard correctAns={correctAns} wrongAns={wrongAns} setVisualization={setVisualization} visualization={visualization}/>
-      
+      <ScoreBoard correctAns={correctAns} wrongAns={wrongAns} setVisualization={setVisualization} visualization={visualization} />
+
     </div>
   )
 }

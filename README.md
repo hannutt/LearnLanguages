@@ -61,6 +61,10 @@ RANDOM SENTENCES
 
 User can generate random phrases to display in the app. Random phrases are generated using the external Quote API and retrieved using the JavaScript Fetch method. The idea is that the user reads the sentence and translates it into Finnish by writing the answer in the html input field. the translated sentence is sent to the GPT API, which checks the correctness of the user's answer.
 
+An example image with a random phrase fetched from the API and displayed to the user. 
+
+![alt text](frontend/src/images/LLappGenerate.png)
+
 DRAG N DROP
 
 The user can also use the drag and drop function when answering the questions. The drag and drop feature of this app is made without any external libraries. The drag and drop feature in this app uses the HTML 5 Drag N Drop API and JavaScript code.

@@ -267,3 +267,9 @@ jossa näytettävä kuva kallistetaan 0-45-90-180-0 asteisiin*/
 .form-check-label {
   font-weight: bold;
 }
+/*word-wrap ja width katkaisee tekstin ja jatkaa uudelle riville*/
+.quotePlace {
+  word-wrap: break-word;
+  width: 300px;
+  border: 1px solid black;
+}
