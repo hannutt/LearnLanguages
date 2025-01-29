@@ -29,6 +29,22 @@ function Generate() {
             });
     }
 
+    //quotePlace tagissa olevan tekstin fontin suurentaminen 2 pikselillä
+    const increaseText=()=>{
+
+        var txt = document.getElementById('quotePlace');
+        var style = window.getComputedStyle(txt, null).getPropertyValue('font-size');
+        var currentSize = parseFloat(style);
+        txt.style.fontSize = (currentSize + 2) + 'px';
+
+    }
+
+    const decreaseText=()=>{
+        var txt = document.getElementById('quotePlace');
+        var style = window.getComputedStyle(txt, null).getPropertyValue('font-size');
+        var currentSize = parseFloat(style);
+        txt.style.fontSize = (currentSize - 2) + 'px';
+    }
 
     const checkAnswer = () => {
         genQuote = genQuote.toLowerCase()
@@ -67,6 +83,8 @@ function Generate() {
             <br></br><br></br>
             <center>
             <p id="quotePlace" class="quotePlace">{genQuote}</p>
+            <button class="btn btn-success btn-sm" style={{marginRight:10+'px'}} onClick={increaseText}>+</button>
+            <button class="btn btn-danger btn-sm" onClick={decreaseText}>-</button>
             
             </center>
             

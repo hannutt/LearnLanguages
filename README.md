@@ -61,7 +61,7 @@ RANDOM SENTENCES
 
 User can generate random phrases to display in the app. Random phrases are generated using the external Quote API and retrieved using the JavaScript Fetch method. The idea is that the user reads the sentence and translates it into Finnish by writing the answer in the html input field. the translated sentence is sent to the GPT API, which checks the correctness of the user's answer.
 
-An example image with a random phrase fetched from the API and displayed to the user. 
+An example image with a random phrase fetched from the API and displayed to the user. The user can increase or decrease the font of the generated text by clicking the plus and minus buttons. Both buttons have a JavaScript function that uses the getComputedStyle and getPropertyValues ​​functions to increase and decrease the font size of the element's text. Each click decreases/enlarges the font by 2 pixels at a time.
 
 ![alt text](frontend/src/images/LLappGenerate.png)
 
@@ -104,7 +104,7 @@ This feature is made with CSS-animate and Transform methods. Reloading CSS anima
 
 ADJUSTMENT OF AUXILIARY IMAGES
 
-The user can adjust the brightness and contrast of the auxiliary images with the html slider. The default brightness and contrast is 100% and can be adjusted between 1-200%. The brightness/contrast values are stored in the State variable and the variable is sent to the style property of the auxiliary img element. These properties use the CSS brightness and CSS contrast functions.
+The user can adjust the brightness, hue-rotate and contrast of the auxiliary images with the html slider. The default brightness and contrast is 100% and can be adjusted between 1-200%. The brightness/contrast values are stored in the State variable and the variable is sent to the style property of the auxiliary img element. These properties use the CSS brightness and CSS contrast functions.
 
 The default size of auxiliary images is 200 x 200 pixels. The user can zoom in or out auxiliary image by using clicking the buttons. each click resizes the guide image by 5 pixels in height and width. Image size values ​​are stored in state variables, and increment/decrement functions change these variable values.
 You can also reset the auxiliary image to its default size at any time by clicking the reset button.
